@@ -1,0 +1,63 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# --- GENERAL IGNORE FILES ---
+.DS_Store
+Thumbs.db
+*.log
+*.lock
+*.pem
+*.sqlite
+*.sqlite3
+
+# --- NODE.JS & PACKAGE MANAGERS ---
+node_modules/
+.pnp
+.pnp.*
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore package managers' lock files (Optional: Uncomment if using one only)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# --- ENVIRONMENT VARIABLES ---
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# --- FRONTEND (Next.js) ---
+frontend/.next/
+frontend/.out/
+frontend/build/
+frontend/.vercel
+
+# --- BACKEND (Node.js, Express, or other) ---
+server/build/
+server/node_modules/
+server/.env
+server/.pids
+server/.cache
+server/logs/
+server/debug.log
+server/error.log
+
+# --- COVERAGE & TESTING ---
+coverage/
+.nyc_output/
+jest/
+
+# --- TYPESCRIPT (if using) ---
+*.tsbuildinfo
+next-env.d.ts
+
+# --- MISCELLANEOUS ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
