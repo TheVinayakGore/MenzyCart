@@ -86,13 +86,13 @@ const ProductCard = ({ product }: { product: Product }) => (
 
 // Loading Component
 const Loading = () => (
-  <p className="text-center py-10 text-lg">Loading products...</p>
+  <p className="text-center p-40 text-lg">Loading products...</p>
 );
 
 const Page = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
+  const API_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
   useEffect(() => {
     let isMounted = true;

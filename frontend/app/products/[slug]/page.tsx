@@ -4,17 +4,16 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 interface Product {
   id: string;
   title: string;
-  slug: string;
   description: string;
   price: number;
   stock: number;
   imageUrl: string;
   gallery: string[];
-  tags: string[];
 }
 
 export default function ProductPage() {
@@ -34,26 +33,28 @@ export default function ProductPage() {
             response.data.data.length > 0 ? response.data.data[0] : null;
 
           if (fetchedProduct) {
-            const productData = {
+            interface ProductDescriptionBlock {
+              children: { text: string }[];
+            }
+
+            const productData: Product = {
               id: fetchedProduct.id,
-              title: fetchedProduct.attributes.title,
-              slug: fetchedProduct.attributes.slug,
-              description: fetchedProduct.attributes.description,
-              price: fetchedProduct.attributes.price,
-              stock: fetchedProduct.attributes.stock,
-              imageUrl: fetchedProduct.attributes.image?.data?.attributes?.url
-                ? `http://localhost:1337${fetchedProduct.attributes.image.data.attributes.url}`
-                : "",
-              gallery: fetchedProduct.attributes.gallery?.data
-                ? fetchedProduct.attributes.gallery.data.map(
-                    (img: { attributes: { url: string } }) =>
-                      `http://localhost:1337${img.attributes.url}`
-                  )
-                : [],
-              tags: fetchedProduct.attributes.tags?.data
-                ? fetchedProduct.attributes.tags.data.map(
-                    (tag: { attributes: { name: string } }) =>
-                      tag.attributes.name
+              title: fetchedProduct.title,
+              description: fetchedProduct.description
+                ? fetchedProduct.description
+                    .map((block: ProductDescriptionBlock) =>
+                      block.children.map((child) => child.text).join("")
+                    )
+                    .join("\n")
+                : "No description available.",
+              price: fetchedProduct.price,
+              stock: parseInt(fetchedProduct.stock, 10) || 0, // Ensure stock is a number
+              imageUrl: fetchedProduct.image?.url
+                ? `http://localhost:1337${fetchedProduct.image.url}`
+                : "/placeholder.jpg",
+              gallery: fetchedProduct.gallery
+                ? fetchedProduct.gallery.map(
+                    (img: { url: string }) => `http://localhost:1337${img.url}`
                   )
                 : [],
             };
@@ -70,57 +71,116 @@ export default function ProductPage() {
     }
   }, [slug]);
 
-  if (loading) return <p>Loading product...</p>;
-  if (!product) return <p>Product not found</p>;
+  if (loading)
+    return (
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="p-40 text-center text-gray-600"
+      >
+        Loading product...
+      </motion.p>
+    );
+  if (!product)
+    return (
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="p-40 text-center text-gray-600"
+      >
+        Product not found
+      </motion.p>
+    );
 
   return (
-    <div className="flex flex-col items-start justify-start gap-5 max-w-6xl mx-auto py-40">
-      <h1 className="text-4xl font-extrabold">{product.title || "Undefined"}</h1>
+    <motion.main
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col items-start justify-start gap-8 max-w-6xl mx-auto py-20 px-4"
+    >
+      {/* Product Title */}
+      <motion.h1
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className="text-5xl font-bold text-gray-900"
+      >
+        {product.title || "Undefined"}
+      </motion.h1>
 
+      {/* Product Image */}
       {product.imageUrl && (
-        <Image
-          src={product.imageUrl}
-          alt={product.title}
-          width={1000}
-          height={1000}
-          priority
-          className="w-full h-full rounded-xl border-2"
-        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="w-full h-auto rounded-xl overflow-hidden shadow-lg"
+        >
+          <Image
+            src={product.imageUrl}
+            alt={product.title}
+            width={1000}
+            height={1000}
+            priority
+            className="w-full h-auto object-cover"
+          />
+        </motion.div>
       )}
 
-      <p className="text-xs opacity-40">Price: ${product.price}</p>
-      <p className="text-xs opacity-40">Stock: {product.stock} available</p>
-      <p className="opacity-60">{product.description}</p>
+      {/* Price and Stock */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        className="flex flex-col gap-2"
+      >
+        <p className="text-2xl font-semibold text-gray-800">
+          ${product.price.toFixed(2)}
+        </p>
+        <p className="text-sm text-gray-500">
+          {product.stock > 0
+            ? `${product.stock} available in stock`
+            : "Out of stock"}
+        </p>
+      </motion.div>
+
+      {/* Description */}
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.5 }}
+        className="text-lg text-gray-700 whitespace-pre-line"
+      >
+        {product.description}
+      </motion.p>
 
       {/* Gallery */}
       {product.gallery.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.5 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full"
+        >
           {product.gallery.map((imgUrl, index) => (
-            <Image
+            <motion.div
               key={index}
-              src={imgUrl}
-              alt={`Gallery Image ${index + 1}`}
-              width={500}
-              height={500}
-              className="rounded-lg border"
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Tags */}
-      {product.tags.length > 0 && (
-        <div className="flex gap-2 flex-wrap mt-4">
-          {product.tags.map((tag, index) => (
-            <span
-              key={index}
-              className="bg-gray-200 px-3 py-1 rounded-lg text-sm"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="rounded-lg overflow-hidden shadow-md cursor-pointer"
             >
-              #{tag}
-            </span>
+              <Image
+                src={imgUrl}
+                alt={`Gallery Image ${index + 1}`}
+                width={500}
+                height={500}
+                className="w-full h-auto object-cover"
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.main>
   );
 }

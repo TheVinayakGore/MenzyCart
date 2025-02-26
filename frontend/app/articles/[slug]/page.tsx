@@ -27,7 +27,6 @@ interface Block {
 
 export default function Page() {
   const { slug } = useParams();
-
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
