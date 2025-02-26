@@ -1,11 +1,92 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { HoverEffect } from "./ui/card-hover-effect";
-// import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { IoFilterOutline } from "react-icons/io5";
 
+// Define the API response structure
+interface ProductAPIResponse {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  price: number;
+  stock: string;
+  image?: {
+    id: number;
+    url: string;
+    alternativeText: string;
+  };
+  gallery?: { url: string }[];
+  tags?: string[];
+}
+
+// Utility function to fetch products
+const fetchProducts = async (API_URL: string) => {
+  const response = await axios.get<{ data: ProductAPIResponse[] }>(
+    `${API_URL}/api/products?populate=*`
+  );
+  return response.data.data.map((product) => ({
+    title: product.title || "Untitled Product",
+    description:
+      Array.isArray(product.description) &&
+      product.description[0]?.children[0]?.text
+        ? product.description[0].children[0].text.slice(0, 165) + "..."
+        : "No description",
+    link: `/products/${product.slug || "no-slug"}`,
+    image: product.image?.url
+      ? `${API_URL}${product.image.url}`
+      : "/noimage.png",
+    price: product.price?.toString() || "0",
+    tags: product.tags || [], // Fetch tags from API
+  }));
+};
+
+// Loading Component
+const Loading = () => (
+  <p className="text-center p-40 text-lg">Loading products...</p>
+);
+
 const ProductsList = () => {
+  const [products, setProducts] = useState<
+    {
+      title: string;
+      description: string;
+      link: string;
+      image: string;
+      price: string;
+      tags: string[];
+    }[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+  const API_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const getProducts = async () => {
+      try {
+        const fetchedProducts = await fetchProducts(API_URL);
+        if (isMounted) {
+          setProducts(fetchedProducts);
+          setLoading(false);
+        }
+      } catch (error) {
+        alert("Error fetching products:" + error);
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    getProducts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [API_URL]);
+
+  if (loading) return <Loading />;
+
   const filters = [
     "All",
     "Electronics",
@@ -26,6 +107,7 @@ const ProductsList = () => {
     "Home",
     "Sports",
   ];
+
   return (
     <>
       <main className="flex flex-col items-start w-full">
@@ -57,76 +139,3 @@ const ProductsList = () => {
 };
 
 export default ProductsList;
-
-export const products = [
-  {
-    title: "T-Shirt",
-    description: "High-quality cotton t-shirt available in multiple colors.",
-    link: "/",
-    image: "/card.png",
-    price: "19.99",
-  },
-  {
-    title: "Cricket Bat",
-    description: "Premium wooden cricket bat for professional play.",
-    link: "/",
-    image: "/card.png",
-    price: "49.99",
-  },
-  {
-    title: "Smart Watch",
-    description: "Feature-rich smartwatch with heart rate monitoring.",
-    link: "/",
-    image: "/card.png",
-    price: "129.99",
-  },
-  {
-    title: "Running Shoes",
-    description: "Comfortable and durable running shoes for all terrains.",
-    link: "/",
-    image: "/card.png",
-    price: "79.99",
-  },
-  {
-    title: "Backpack",
-    description: "Stylish and spacious backpack for daily use.",
-    link: "/",
-    image: "/card.png",
-    price: "39.99",
-  },
-  {
-    title: "Sunglasses",
-    description: "UV-protected sunglasses for a stylish look.",
-    link: "/",
-    image: "/card.png",
-    price: "29.99",
-  },
-  {
-    title: "Headphones",
-    description: "Wireless headphones with noise cancellation.",
-    link: "/",
-    image: "/card.png",
-    price: "99.99",
-  },
-  {
-    title: "Leather Wallet",
-    description: "Genuine leather wallet with multiple compartments.",
-    link: "/",
-    image: "/card.png",
-    price: "25.99",
-  },
-  {
-    title: "Laptop Bag",
-    description: "Water-resistant laptop bag with extra padding.",
-    link: "/",
-    image: "/card.png",
-    price: "59.99",
-  },
-  {
-    title: "Gaming Mouse",
-    description: "Ergonomic gaming mouse with customizable buttons.",
-    link: "/",
-    image: "/card.png",
-    price: "39.99",
-  },
-];

@@ -166,16 +166,15 @@ export default function ProductPage() {
           {product.gallery.map((imgUrl, index) => (
             <motion.div
               key={index}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="rounded-lg overflow-hidden shadow-md cursor-pointer"
+              whileHover={{ scale: 1.3 }}
+              className="rounded-xl overflow-hidden shadow-xl"
             >
               <Image
                 src={imgUrl}
                 alt={`Gallery Image ${index + 1}`}
                 width={500}
                 height={500}
-                className="w-full h-auto object-cover"
+                className="w-full h-40 object-cover"
               />
             </motion.div>
           ))}

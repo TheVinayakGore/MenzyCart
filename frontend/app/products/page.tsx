@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { Product } from "@/types/product"; // Import the Product interface
+import { Product } from "@/types/product";
 
 // Define the API response structure
 interface ProductAPIResponse {

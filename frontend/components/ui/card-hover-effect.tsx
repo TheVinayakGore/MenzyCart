@@ -15,6 +15,7 @@ export const HoverEffect = ({
     link: string;
     image: string;
     price: string;
+    tags?: string[];
   }[];
   className?: string;
 }) => {
@@ -53,7 +54,7 @@ export const HoverEffect = ({
               />
             )}
           </AnimatePresence>
-          <Card>
+          <Card className="flex flex-col items-start justify-between w-full h-full">
             <div className="w-full">
               <Image
                 src={item.image}
@@ -63,11 +64,24 @@ export const HoverEffect = ({
                 className="rounded-lg border w-full aspect-[16/10]"
               />
             </div>
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
-            <p className="mt-5 text-lg font-medium text-sky-500 dark:text-sky-400">
-              ${item.price}
-            </p>
+            <div className="flex flex-col items-start justify-between pt-3 h-full">
+              <div className="flex flex-col items-start">
+                <CardTitle>{item.title}</CardTitle>
+                <CardDescription>{item.description}</CardDescription>
+              </div>
+              <p className="mt-5 text-lg font-medium text-sky-500 dark:text-sky-400">
+                ${item.price}
+              </p>
+              {Array.isArray(item.tags) && item.tags.length > 0 && (
+                <div className="flex gap-2">
+                  <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                    {item.tags.length === 1
+                      ? item.tags[0]
+                      : item.tags[Math.floor(Math.random() * item.tags.length)]}
+                  </span>
+                </div>
+              )}
+            </div>
           </Card>
         </Link>
       ))}
