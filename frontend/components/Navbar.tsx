@@ -5,10 +5,14 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
-// import { Search } from "lucide-react";
 import { HiOutlineSun } from "react-icons/hi2";
 import { IoMoonOutline } from "react-icons/io5";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
+import {
+  Drawer,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import Cart from "@/app/products/Cart";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -31,6 +35,7 @@ const Navbar = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
   };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("submitted");
@@ -54,14 +59,6 @@ const Navbar = () => {
           </Link>
         </li>
         <li className="relative flex-1 max-w-2xl mx-8">
-          {/* <div className="relative">
-            <input
-              type="text"
-              placeholder="Search your products here..."
-              className="pl-12 pr-4 py-2 w-full rounded-xl outline-none border border-zinc-300 dark:border-zinc-700 bg-white/[0.6] dark:bg-zinc-900/[0.6] backdrop-blur-sm placeholder:text-zinc-700 dark:placeholder:text-zinc-400"
-            />
-            <Search className="w-6 h-6 absolute left-3 top-1/2 transform -translate-y-1/2 opacity-40" />
-          </div> */}
           <div>
             <PlaceholdersAndVanishInput
               placeholders={placeholders}
@@ -71,12 +68,17 @@ const Navbar = () => {
           </div>
         </li>
         <li className="flex items-center gap-4">
-          <button className="relative p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-200">
-            <HiOutlineShoppingCart className="h-7 w-7" />
-            <span className="absolute top-0 right-0 bg-sky-500 text-white text-xs rounded-full px-1.5 py-0.5">
-              3 {/* Replace with dynamic cart count */}
-            </span>
-          </button>
+          <Drawer>
+            <DrawerTrigger asChild>
+              <button className="relative p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-200">
+                <HiOutlineShoppingCart className="h-7 w-7" />
+                <span className="absolute top-0 right-0 bg-sky-500 text-white text-xs rounded-full px-1.5 py-0.5">
+                  3 {/* Replace with dynamic cart count */}
+                </span>
+              </button>
+            </DrawerTrigger>
+            <Cart />
+          </Drawer>
           <Button className="px-7 text-sm font-medium bg-sky-400 hover:bg-sky-500 text-white">
             Login
           </Button>

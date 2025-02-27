@@ -121,13 +121,23 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="mt-8 flex flex-col md:flex-row justify-between items-center text-sm">
-          <p className="opacity-60">© {new Date().getFullYear()} MenzyCart. All rights reserved.</p>
+          <p className="opacity-60">
+            © {new Date().getFullYear()} MenzyCart. All rights reserved.
+          </p>
 
           <div className="flex items-center gap-5">
-            <Link href="/privacy-policy" className="hover:text-sky-500 opacity-60 hover:opacity-100">
+            <Link
+              href="/privacyPolicy"
+              target="_blank"
+              className="hover:text-sky-500 opacity-60 hover:opacity-100"
+            >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-sky-500 opacity-60 hover:opacity-100">
+            <Link
+              href="/terms"
+              target="_blank"
+              className="hover:text-sky-500 opacity-60 hover:opacity-100"
+            >
               Terms of Service
             </Link>
             <Link

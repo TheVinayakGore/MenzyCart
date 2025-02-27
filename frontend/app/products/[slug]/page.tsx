@@ -4,18 +4,18 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { motion } from "framer-motion";
+import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { PiHeartFill } from "react-icons/pi";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Product {
   id: string;
@@ -28,7 +28,7 @@ interface Product {
   rating: number;
   reviews: number;
   colors: string[];
-  // sizes: string[];
+  sizes: string[];
 }
 
 export default function ProductPage() {
@@ -39,6 +39,33 @@ export default function ProductPage() {
   const [service, setService] = useState<boolean | null>(null);
   const [selectedColor, setSelectedColor] = useState("");
   const [liked, setLiked] = useState(false);
+  const [showMessage, setShowMessage] = useState(true);
+
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => `$${latest.toFixed(2)}`);
+
+  useEffect(() => {
+    if (product?.price) {
+      const controls = animate(count, product.price, {
+        duration: 2, // Smooth animation
+        ease: "easeOut",
+      });
+
+      return () => controls.stop(); // Cleanup animation
+    }
+  }, [product?.price, count]);
+
+  useEffect(() => {
+    if (service !== null) {
+      setShowMessage(true);
+      const timer = setTimeout(() => {
+        setShowMessage(false);
+        setPincode(""); // Clear input after timeout
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [service]);
 
   const checkPincode = async () => {
     try {
@@ -46,7 +73,7 @@ export default function ProductPage() {
       const pincodejson: string[] = await response.json();
       setService(pincodejson.includes(pincode));
     } catch (error) {
-      console.error("Failed to check pincode:", error);
+      toast.error("Failed to check pincode :" + error);
     }
   };
 
@@ -97,14 +124,14 @@ export default function ProductPage() {
               reviews: fetchedProduct.reviews || 0,
               colors: fetchedProduct.colors?.data
                 ? fetchedProduct.colors.data.map(
-                    (color: { name: string } ) => color
+                    (color: { name: string }) => color
                   )
                 : [],
-              // sizes: fetchedProduct.attributes.sizes?.data
-              //   ? fetchedProduct.attributes.sizes.data.map(
-              //       (size: { attributes: { name: string } }) => size
-              //     )
-              //   : [],
+              sizes: fetchedProduct.sizes?.data
+                ? fetchedProduct.sizes.data.map(
+                    (size: { name: string }) => size
+                  )
+                : [],
             };
             setProduct(productData);
           }
@@ -118,6 +145,14 @@ export default function ProductPage() {
       fetchProduct();
     }
   }, [slug]);
+
+  useEffect(() => {
+    // Load the liked state from localStorage
+    const storedLiked = localStorage.getItem(`liked-${product?.id}`);
+    if (storedLiked) {
+      setLiked(JSON.parse(storedLiked));
+    }
+  }, [product?.id]);
 
   if (loading)
     return (
@@ -141,9 +176,34 @@ export default function ProductPage() {
       </motion.p>
     );
 
-  const handleLikeClick = () => {
-    setLiked((prevLiked) => !prevLiked);
-    toast.success(liked ? "Unliked!" : "Liked!");
+  const handleLikeClick = async () => {
+    const newLikedState = !liked;
+
+    toast.promise(
+      new Promise((resolve) => {
+        setTimeout(() => {
+          setLiked(newLikedState);
+          localStorage.setItem(
+            `liked-${product?.id}`,
+            JSON.stringify(newLikedState)
+          );
+          resolve(newLikedState);
+        }, 1000); // Simulating async operation (you can remove this if unnecessary)
+      }),
+      {
+        loading: newLikedState ? (
+          <b className="text-lg px-5">Liking...</b>
+        ) : (
+          <b className="text-lg px-5">Unliking...</b>
+        ),
+        success: newLikedState ? (
+          <b className="text-lg px-5">Liked ! 😍</b>
+        ) : (
+          <b className="text-lg px-5">Unliked ! 💔</b>
+        ),
+        error: <b className="text-lg px-5">Something went wrong !</b>,
+      }
+    );
   };
 
   return (
@@ -152,64 +212,79 @@ export default function ProductPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col items-start py-32 px-10 w-full h-full"
+        className="flex flex-col items-start py-32 px-16 w-full h-full"
       >
         <div className="flex items-start justify-between gap-5 w-full h-full">
           {/* Image Section */}
           <section
             id="ID1"
-            className="sticky top-24 flex items-start justify-start gap-5 w-full h-full"
+            className="sticky top-0 flex flex-col items-start justify-start gap-3 w-full h-full"
           >
-            <ul className="flex flex-col items-start justify-start gap-2 overflow-auto h-[30rem]">
-              <li>
-                <Image
-                  src={product.imageUrl}
-                  alt={product.title}
-                  width={600}
-                  height={200}
-                  priority
-                  className="object-cover rounded-md border dark:border-zinc-700 shadow-lg h-28 w-40"
+            <div className="flex items-start w-full h-full">
+              <Image
+                src={product.imageUrl}
+                alt={product.title}
+                width={600}
+                height={200}
+                priority
+                className="object-cover rounded-lg border dark:border-zinc-700 shadow-lg h-[30rem] w-full"
+              />
+
+              <motion.button
+                onClick={handleLikeClick}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="-ml-12 mt-2 border-none shadow-md rounded-full bg-white/[0.3] p-2"
+              >
+                <PiHeartFill
+                  className={`h-6 w-6 ${
+                    liked
+                      ? "text-rose-600 shadow-lg"
+                      : "text-zinc-300 hover:text-rose-600"
+                  }`}
                 />
-              </li>
-            </ul>
-            <div className="flex flex-col items-center gap-3 w-full h-full">
-              <div className="flex items-start w-full h-full">
-                <Image
-                  src={product.imageUrl}
-                  alt={product.title}
-                  width={600}
-                  height={200}
-                  priority
-                  className="object-cover rounded-lg border dark:border-zinc-700 shadow-lg h-[30rem] w-full"
-                />
-                <button
-                  onClick={handleLikeClick}
-                  className="-ml-12 mt-2 border-none shadow-md rounded-full bg-white p-2"
-                >
-                  <PiHeartFill
-                    className={`h-6 w-6 ${
-                      liked
-                        ? "text-rose-500"
-                        : "text-zinc-300 hover:text-red-500"
-                    }`}
-                  />
-                </button>
-              </div>
-              {/* Quantity Selector and Buttons */}
-              <div className="flex items-center space-x-3 py-5 mt-5 border-t dark:border-zinc-700 w-full h-full">
-                <div className="w-full">
+              </motion.button>
+            </div>
+            <div className="w-full">
+              {product.gallery?.length > 0 && (
+                <ul className="flex flex-row items-start justify-start gap-2 overflow-x-auto w-full h-28">
+                  {product.gallery.map((image, index) => (
+                    <motion.li
+                      key={index}
+                      whileHover={{ scale: 1.05 }}
+                      className="flex-shrink-0"
+                    >
+                      <Image
+                        src={image}
+                        alt={`Gallery image ${index + 1} of ${product.title}`}
+                        width={600}
+                        height={200}
+                        priority
+                        className="rounded-md border dark:border-zinc-700 shadow-lg h-28 w-36"
+                      />
+                    </motion.li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {/* Quantity Selector and Buttons */}
+            <div className="flex items-center space-x-3 py-5 mt-2 border-t dark:border-zinc-700 w-full h-full">
+              <div className="w-full">
+                <motion.div whileHover={{ scale: 1.05 }}>
                   <Button
                     variant="outline"
                     className="text-lg font-medium dark:border-zinc-700 hover:bg-sky-500 hover:text-white h-14 w-full"
                   >
                     Add to Cart
                   </Button>
-                </div>
-                <div className="w-full">
+                </motion.div>
+              </div>
+              <div className="w-full">
+                <motion.div whileHover={{ scale: 1.05 }}>
                   <Button className="text-lg font-medium hover:bg-yellow-500 h-14 w-full">
                     Buy Now
                   </Button>
-                </div>
+                </motion.div>
               </div>
             </div>
           </section>
@@ -217,14 +292,14 @@ export default function ProductPage() {
           {/* Product Details Section */}
           <section
             id="ID2"
-            className="sticky top-0 overflow-auto px-5 w-full h-full"
+            className="sticky top-20 overflow-auto px-5 w-full h-full"
           >
             <div>
               <h1 className="text-black dark:text-white text-3xl title-font font-medium mb-1">
                 {product.title}
               </h1>
               <div className="flex mb-3">
-                <span className="flex items-center">
+                <div className="flex items-center">
                   {[...Array(product.rating)].map((_, index) => (
                     <FaStar key={index} className="text-yellow-400 text-lg" />
                   ))}
@@ -234,17 +309,22 @@ export default function ProductPage() {
                       className="text-yellow-400 text-lg"
                     />
                   ))}
-                  <span className="ml-3 text-lg">
-                    {product.reviews} Reviews
-                  </span>
-                </span>
+                  <motion.span className="text-lg opacity-60 ml-3">
+                    {product.reviews >= 1000
+                      ? `${(product.reviews / 1000).toFixed(2)}K`
+                      : product.reviews}{" "}
+                    Reviews
+                  </motion.span>
+                </div>
               </div>
-              <p className="leading-relaxed">{product.description}</p>
+              <p className="leading-relaxed opacity-80">
+                {product.description}
+              </p>
             </div>
 
             {/* Color and Size Selectors */}
-            <div className="flex my-6 items-center space-x-10 w-full">
-              {/* {product.sizes.length > 0 && (
+            <div className="flex my-6 items-center gap-10 opacity-70 w-full">
+              {product.sizes.length && (
                 <div className="flex items-center w-40">
                   <div className="relative w-full">
                     <Select>
@@ -261,16 +341,18 @@ export default function ProductPage() {
                     </Select>
                   </div>
                 </div>
-              )} */}
+              )}
 
               {/* Color Selector */}
               <div className="flex items-center w-full h-10">
                 <span className="mr-2">Colors :</span>
                 {product.colors.map((color, index) => (
-                  <button
+                  <motion.button
                     key={index}
                     aria-label={`Color option ${color}`}
                     onClick={() => setSelectedColor(color)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                     className={`border border-zinc-800 dark:border-zinc-800 rounded-full w-6 h-6 ${
                       selectedColor === color ? "ring-2 ring-blue-500" : ""
                     }`}
@@ -281,42 +363,59 @@ export default function ProductPage() {
             </div>
 
             {/* Price and Pincode Checker */}
-            <div className="flex items-center justify-between border-t border-b dark:border-zinc-700 py-4 my-5 w-full">
-              <p className="flex items-end space-x-3 title-font font-medium text-2xl text-black dark:text-white">
-                ${product.price.toFixed(2)}
-              </p>
-              <div className="w-1/2">
-                <div className="flex max-w-sm items-center space-x-2 w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center justify-between border-t border-b dark:border-zinc-700 my-5 w-full h-20"
+            >
+              <motion.p className="text-3xl font-bold w-1/2">
+                {rounded}
+              </motion.p>
+              <div className="w-full">
+                <div className="flex items-center gap-2 w-full">
                   <Input
                     type="text"
                     id="pincode"
                     name="pincode"
                     placeholder="Check Pincode"
-                    className="dark:border-zinc-700"
+                    className="dark:border-zinc-700 w-full"
                     value={pincode}
                     onChange={onChangePincode}
                     maxLength={6}
                     required
                   />
-                  <Button
-                    onClick={checkPincode}
-                    className="hover:bg-sky-400 hover:text-white w-40"
-                  >
-                    Check
-                  </Button>
+                  <motion.div whileHover={{ scale: 1.05 }}>
+                    <Button
+                      onClick={checkPincode}
+                      className="hover:bg-sky-400 hover:text-white w-28"
+                    >
+                      Check
+                    </Button>
+                  </motion.div>
                 </div>
-                {service === false && (
-                  <div className="text-red-500 text-xs text-start mt-1 leading-3">
+                {showMessage && service === false && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="text-red-500 text-xs text-start mt-1 leading-3"
+                  >
                     Sorry, No service available at this pincode!
-                  </div>
+                  </motion.div>
                 )}
-                {service === true && (
-                  <div className="text-green-500 text-xs text-start mt-1 leading-3">
+                {showMessage && service === true && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="text-green-500 text-xs text-start mt-1 leading-3"
+                  >
                     Yes, service available at this pincode!
-                  </div>
+                  </motion.div>
                 )}
               </div>
-            </div>
+            </motion.div>
           </section>
         </div>
       </motion.main>
