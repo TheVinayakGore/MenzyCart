@@ -59,6 +59,20 @@
       "targetField": "title",
       "required": true,
       "minLength": 3
+    },
+    "rating": {
+      "type": "decimal",
+      "required": false
+    },
+    "reviews": {
+      "type": "biginteger"
+    },
+    "colors": {
+      "type": "json",
+      "required": false
+    },
+    "sizes": {
+      "type": "json"
     }
   }
 }
