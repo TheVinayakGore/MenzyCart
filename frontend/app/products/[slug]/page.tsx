@@ -164,11 +164,7 @@ export default function ProductPage() {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full"
         >
           {product.gallery.map((imgUrl, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.3 }}
-              className="rounded-xl overflow-hidden shadow-xl"
-            >
+            <div key={index} className="rounded-xl overflow-hidden shadow-xl">
               <Image
                 src={imgUrl}
                 alt={`Gallery Image ${index + 1}`}
@@ -176,7 +172,7 @@ export default function ProductPage() {
                 height={500}
                 className="w-full h-40 object-cover"
               />
-            </motion.div>
+            </div>
           ))}
         </motion.div>
       )}

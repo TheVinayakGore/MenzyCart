@@ -6,7 +6,7 @@ export default [
     name: "strapi::cors",
     config: {
       enabled: true,
-      origin: ["http://localhost:3000"], // Allow Next.js frontend
+      origin: ["http://localhost:3000", "https://menzycart.vercel.app"], // Allow Next.js frontend
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       headers: ["Content-Type", "Authorization", "Origin", "Accept"],
       credentials: true, // Allow cookies if needed
