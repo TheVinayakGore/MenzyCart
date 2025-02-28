@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import MobileCards from "@/components/MobileCards";
 import Gallery from "@/components/Gallery";
 import ProductsList from "@/components/ProductsList";
+import FAQ from "@/components/FAQ";
 
 const page = () => {
   return (
@@ -13,6 +14,7 @@ const page = () => {
           <MobileCards />
           <Gallery />
           <ProductsList />
+          <FAQ />
         </section>
       </main>
     </>

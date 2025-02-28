@@ -41,9 +41,9 @@ const Footer = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="bg-zinc-100 dark:bg-zinc-900 py-12"
     >
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="container mx-auto">
         {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 pb-8 border-b dark:border-zinc-800">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-24 pb-8 border-b dark:border-zinc-800">
           {/* Logo & Newsletter */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center space-x-2">
@@ -67,56 +67,60 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-medium pl-5">Quick Links</h3>
-            <ul className="mt-4 space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="hover:text-sky-500 hover:border-l-2 border-sky-500 pl-5 hover:ml-5 opacity-60 hover:opacity-100 transition-all duration-300"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="col-span-3 flex items-start gap-20 w-full">
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-lg font-medium pl-5">Quick Links</h3>
+              <ul className="mt-4 space-y-2">
+                {quickLinks.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      target="_blank"
+                      className="hover:text-sky-500 hover:border-l-2 border-sky-500 pl-5 hover:ml-5 opacity-60 hover:opacity-100 transition-all duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Customer Service Links */}
+            <div>
+              <h3 className="text-lg font-medium pl-5">Customer Service</h3>
+              <ul className="mt-4 space-y-2">
+                {customerServiceLinks.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="hover:text-sky-500 hover:border-l-2 border-sky-500 pl-5 hover:ml-5 opacity-60 hover:opacity-100 transition-all duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company Links */}
+            <div>
+              <h3 className="text-lg font-medium pl-5">Company</h3>
+              <ul className="mt-4 space-y-2">
+                {companyLinks.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="hover:text-sky-500 hover:border-l-2 border-sky-500 pl-5 hover:ml-5 opacity-60 hover:opacity-100 transition-all duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Customer Service Links */}
-          <div>
-            <h3 className="text-lg font-medium pl-5">Customer Service</h3>
-            <ul className="mt-4 space-y-2">
-              {customerServiceLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="hover:text-sky-500 hover:border-l-2 border-sky-500 pl-5 hover:ml-5 opacity-60 hover:opacity-100 transition-all duration-300"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company Links */}
-          <div>
-            <h3 className="text-lg font-medium pl-5">Company</h3>
-            <ul className="mt-4 space-y-2">
-              {companyLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="hover:text-sky-500 hover:border-l-2 border-sky-500 pl-5 hover:ml-5 opacity-60 hover:opacity-100 transition-all duration-300"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
         {/* Bottom Section */}

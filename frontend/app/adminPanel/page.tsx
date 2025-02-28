@@ -165,7 +165,7 @@ const Page = () => {
   };
 
   return (
-    <main className="p-28">
+    <main className="py-28 px-10">
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -176,7 +176,7 @@ const Page = () => {
       </motion.h1>
 
       {/* Create/Edit Product Form */}
-      <Card className="mb-8 shadow-xl">
+      <Card className="mb-20 shadow-xl">
         <CardHeader className="flex flex-row items-start justify-between w-full">
           <div className="flex flex-col gap-2">
             <CardTitle>
@@ -439,7 +439,7 @@ const Page = () => {
               ) : (
                 <Button
                   onClick={handleCreateProduct}
-                  className="p-6 text-lg font-medium w-full"
+                  className="p-6 text-lg font-medium bg-sky-400 hover:bg-sky-500 text-white w-full"
                 >
                   Create New Product
                 </Button>
@@ -497,74 +497,106 @@ const Page = () => {
                   <TableRow key={product.id} className="">
                     {/* Title */}
                     <TableCell className="w-40 border-l border-r h-20">
-                      {product.title}
+                      {product.title || "-"}
                     </TableCell>
 
                     {/* Description */}
                     <TableCell className="w-64 border-r h-20">
-                      {product.description}
+                      {product.description || "-"}
                     </TableCell>
 
                     {/* Price */}
                     <TableCell className="w-24 border-r h-20">
-                      ${product.price}
+                      {product.price ? `$${product.price}` : "-"}
                     </TableCell>
 
                     {/* Tag */}
                     <TableCell className="w-32 border-r h-20">
-                      {product.tag}
+                      {product.tag || "-"}
                     </TableCell>
 
                     {/* Image */}
                     <TableCell className="w-32 border-r h-20">
-                      <Image
-                        src={product.image}
-                        alt={product.title}
-                        width={500}
-                        height={500}
-                        className="w-auto h-14 object-cover rounded border"
-                      />
+                      {product.image ? (
+                        <Image
+                          src={product.image}
+                          alt={product.title || "Product Image"}
+                          width={500}
+                          height={500}
+                          className="w-auto h-14 object-cover rounded border"
+                        />
+                      ) : (
+                        <Image
+                          src="/noimage.png"
+                          alt="No Image"
+                          width={500}
+                          height={500}
+                          className="w-24 h-14"
+                        />
+                      )}
                     </TableCell>
 
                     {/* Gallery */}
                     <TableCell className="w-64 border-r h-20">
-                      {product.gallery.map((url, index) => (
+                      {product.gallery && product.gallery.length > 0 ? (
+                        product.gallery.map((url, index) => (
+                          <Image
+                            key={index}
+                            src={url}
+                            alt={`Gallery ${index + 1}`}
+                            width={500}
+                            height={500}
+                            className="w-auto h-14 object-cover inline-block rounded border mr-2"
+                          />
+                        ))
+                      ) : (
                         <Image
-                          key={index}
-                          src={url}
-                          alt={`Gallery ${index + 1}`}
+                          src="/noimage.png"
+                          alt="No Image"
                           width={500}
                           height={500}
-                          className="w-auto h-14 object-cover inline-block rounded border mr-2"
+                          className="w-24 h-14"
                         />
-                      ))}
+                      )}
                     </TableCell>
 
                     {/* Stock */}
                     <TableCell className="w-24 border-r h-20">
-                      {product.stock}
+                      {product.stock ?? "-"}
                     </TableCell>
 
                     {/* Slug */}
                     <TableCell className="w-40 border-r h-20">
-                      {product.slug}
+                      {product.slug || "-"}
                     </TableCell>
 
                     {/* Colors */}
                     <TableCell className="w-20 border-r h-20 overflow-auto">
                       <ul className="flex flex-col items-start gap-1 whitespace-nowrap overflow-auto h-full">
-                        {product.colors.map((color, index) => (
-                          <li key={index}>{color}</li>
-                        ))}
+                        {product.colors && product.colors.length > 0
+                          ? product.colors.map((color, index) => (
+                              <li
+                                key={index}
+                                className="flex items-center gap-1"
+                              >
+                                <div
+                                  className={`bg-${color}-500 rounded-full mt-1 w-3 h-3`}
+                                ></div>
+                                {color}
+                              </li>
+                            ))
+                          : "-"}
                       </ul>
                     </TableCell>
 
                     {/* Sizes */}
                     <TableCell className="w-20 border-r h-20 overflow-auto">
                       <ul className="flex flex-col items-start gap-1 whitespace-nowrap overflow-auto h-full">
-                        {product.sizes.map((size, index) => (
-                          <li key={index}>{size}</li>
-                        ))}
+                        {product.sizes && product.sizes.length > 0
+                          ? product.sizes.map((size, index) => (
+                              <li key={index}>{size}</li>
+                            ))
+                          : "-"}
                       </ul>
                     </TableCell>
 
@@ -573,12 +605,16 @@ const Page = () => {
                       <button
                         onClick={() => {
                           setEditingProduct(product);
-                          setIsCardContentVisible(true);
+                          setIsCardContentVisible((prev) => !prev);
                         }}
+                        className="hover:text-sky-500"
                       >
                         <Edit className="h-5 w-5" />
                       </button>
-                      <button onClick={() => handleDeleteProduct(product.id)}>
+                      <button
+                        onClick={() => handleDeleteProduct(product.id)}
+                        className="hover:text-red-500"
+                      >
                         <Trash2 className="h-5 w-5" />
                       </button>
                     </TableCell>
