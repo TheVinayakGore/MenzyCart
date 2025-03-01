@@ -15,7 +15,7 @@ export const HoverEffect = ({
     link: string;
     image: string;
     price: string;
-    tags?: string[];
+    tags: string;
   }[];
   className?: string;
 }) => {
@@ -24,7 +24,7 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-10",
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-3",
         className
       )}
     >
@@ -40,7 +40,7 @@ export const HoverEffect = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-zinc-100 dark:bg-zinc-900 block rounded-2xl"
+                className="absolute inset-0 h-full w-full bg-zinc-100 dark:bg-zinc-900 block rounded-lg"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -54,14 +54,14 @@ export const HoverEffect = ({
               />
             )}
           </AnimatePresence>
-          <Card className="flex flex-col items-start justify-between w-full h-full">
+          <Card className="flex flex-col items-start justify-between relative rounded-lg w-full h-full">
             <div className="w-full">
               <Image
                 src={item.image}
                 alt={item.title}
                 width={2000}
                 height={2000}
-                className="rounded-lg border w-full aspect-[16/10]"
+                className="rounded-md border w-full h-full"
               />
             </div>
             <div className="flex flex-col items-start justify-between pt-3 h-full">
@@ -70,15 +70,15 @@ export const HoverEffect = ({
                 <CardDescription>{item.description}</CardDescription>
               </div>
               <p className="mt-5 text-lg font-medium text-sky-500 dark:text-sky-400">
-                ${item.price}
+                ₹{item.price}
               </p>
-              {Array.isArray(item.tags) && item.tags.length > 0 && (
-                <div className="flex gap-2">
-                  <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                    {item.tags.length === 1
-                      ? item.tags[0]
-                      : item.tags[Math.floor(Math.random() * item.tags.length)]}
-                  </span>
+              {item.tags && (
+                <div
+                  className={`absolute top-0 left-0 m-4 ${
+                    item.tags && "bg-sky-400"
+                  } text-sm font-medium text-white p-2 px-7 rounded-tl-md rounded-br-xl`}
+                >
+                  {item.tags}
                 </div>
               )}
             </div>

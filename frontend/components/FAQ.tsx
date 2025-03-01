@@ -68,7 +68,7 @@ const FAQ = () => {
       transition={{ duration: 0.5 }}
       className="w-full"
     >
-      <h1 className="text-4xl font-bold mb-20"><span className="text-5xl">⌲</span> Frequently Asked Questions</h1>
+      <h1 className="text-4xl font-bold mb-20"><span className="text-5xl">✦</span> Frequently Asked Questions</h1>
       <Accordion
         type="single"
         collapsible

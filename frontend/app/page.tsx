@@ -12,8 +12,8 @@ const page = () => {
         <Hero />
         <section className="flex flex-col items-center justify-center m-auto gap-40 py-40 max-w-[90rem] px-10 md:px-0 w-full mx-auto">
           <MobileCards />
-          <Gallery />
           <ProductsList />
+          <Gallery />
           <FAQ />
         </section>
       </main>

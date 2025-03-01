@@ -67,9 +67,9 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="col-span-3 flex items-start gap-20 w-full">
+          <div className="col-span-3 flex items-start justify-between w-full">
             {/* Quick Links */}
-            <div>
+            <div className="w-full">
               <h3 className="text-lg font-medium pl-5">Quick Links</h3>
               <ul className="mt-4 space-y-2">
                 {quickLinks.map((link) => (
@@ -87,7 +87,7 @@ const Footer = () => {
             </div>
 
             {/* Customer Service Links */}
-            <div>
+            <div className="w-full">
               <h3 className="text-lg font-medium pl-5">Customer Service</h3>
               <ul className="mt-4 space-y-2">
                 {customerServiceLinks.map((link) => (
@@ -104,7 +104,7 @@ const Footer = () => {
             </div>
 
             {/* Company Links */}
-            <div>
+            <div className="w-full">
               <h3 className="text-lg font-medium pl-5">Company</h3>
               <ul className="mt-4 space-y-2">
                 {companyLinks.map((link) => (

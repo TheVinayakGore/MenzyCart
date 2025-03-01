@@ -23,14 +23,6 @@
       "type": "float",
       "required": true
     },
-    "tags": {
-      "type": "enumeration",
-      "enum": [
-        "Best Seller",
-        "New"
-      ],
-      "required": false
-    },
     "image": {
       "type": "media",
       "multiple": false,
@@ -73,6 +65,9 @@
     },
     "sizes": {
       "type": "json"
+    },
+    "tags": {
+      "type": "string"
     }
   }
 }

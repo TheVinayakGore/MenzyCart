@@ -42,7 +42,7 @@ export default function ProductPage() {
   const [showMessage, setShowMessage] = useState(true);
 
   const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) => `$${latest.toFixed(2)}`);
+  const rounded = useTransform(count, (latest) => `₹${latest.toFixed(2)}`);
 
   useEffect(() => {
     if (product?.price) {
@@ -122,16 +122,8 @@ export default function ProductPage() {
                 : [],
               rating: fetchedProduct.rating || 0,
               reviews: fetchedProduct.reviews || 0,
-              colors: fetchedProduct.colors?.data
-                ? fetchedProduct.colors.data.map(
-                    (color: { name: string }) => color
-                  )
-                : [],
-              sizes: fetchedProduct.sizes?.data
-                ? fetchedProduct.sizes.data.map(
-                    (size: { name: string }) => size
-                  )
-                : [],
+              colors: fetchedProduct.colors || [], // Directly use colors array
+              sizes: fetchedProduct.sizes || [], // Directly use sizes array
             };
             setProduct(productData);
           }
@@ -214,61 +206,64 @@ export default function ProductPage() {
         transition={{ duration: 0.5 }}
         className="flex flex-col items-start py-32 px-16 w-full h-full"
       >
-        <div className="flex items-start justify-between gap-5 w-full h-full">
+        <div className="flex items-start justify-start w-full h-full">
           {/* Image Section */}
-          <section
+          <motion.section
+            initial={{ opacity: 0, y: -300 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
             id="ID1"
-            className="sticky top-0 flex flex-col items-start justify-start gap-3 w-full h-full"
+            className="sticky top-0 flex flex-col items-start justify-start gap-3 w-[40%] h-full"
           >
-            <div className="flex items-start w-full h-full">
-              <Image
-                src={product.imageUrl}
-                alt={product.title}
-                width={600}
-                height={200}
-                priority
-                className="object-cover rounded-lg border dark:border-zinc-700 shadow-lg h-[30rem] w-full"
-              />
-
-              <motion.button
-                onClick={handleLikeClick}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="-ml-12 mt-2 border-none shadow-md rounded-full bg-white/[0.3] p-2"
-              >
-                <PiHeartFill
-                  className={`h-6 w-6 ${
-                    liked
-                      ? "text-rose-600 shadow-lg"
-                      : "text-zinc-300 hover:text-rose-600"
-                  }`}
+            <div className="flex items-start justify-start gap-2 border dark:border-zinc-700 rounded-md p-2 w-full h-[36rem]">
+              <div className="flex items-start w-full h-full">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.title}
+                  width={2000}
+                  height={2000}
+                  priority
+                  className="rounded-md h-full w-full"
                 />
-              </motion.button>
+                <motion.button
+                  onClick={handleLikeClick}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="-ml-12 mt-2 border-none shadow-md"
+                >
+                  <PiHeartFill
+                    className={`h-10 w-10 bg-white/[0.3] hover:text-rose-600 rounded-full p-2 ${
+                      liked
+                        ? "text-rose-600 shadow-lg"
+                        : "text-zinc-300"
+                    }`}
+                  />
+                </motion.button>
+              </div>
+              <div className="overflow-auto h-full">
+                {product.gallery?.length > 0 && (
+                  <ul className="flex flex-col items-start justify-start gap-3 pb-3 border-b-4 rounded-b-sm dark:border-zinc-700 overflow-x-auto w-full">
+                    {product.gallery.map((image, index) => (
+                      <li key={index}>
+                        <button className="border dark:border-zinc-700 focus:bg-sky-400 p-1 rounded">
+                          <Image
+                            src={image}
+                            alt={`Gallery image ${index + 1} of ${
+                              product.title
+                            }`}
+                            width={1000}
+                            height={1000}
+                            priority
+                            className="rounded-sm h-20 w-20"
+                          />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
-            <div className="w-full">
-              {product.gallery?.length > 0 && (
-                <ul className="flex flex-row items-start justify-start gap-2 overflow-x-auto w-full h-28">
-                  {product.gallery.map((image, index) => (
-                    <motion.li
-                      key={index}
-                      whileHover={{ scale: 1.05 }}
-                      className="flex-shrink-0"
-                    >
-                      <Image
-                        src={image}
-                        alt={`Gallery image ${index + 1} of ${product.title}`}
-                        width={600}
-                        height={200}
-                        priority
-                        className="rounded-md border dark:border-zinc-700 shadow-lg h-28 w-36"
-                      />
-                    </motion.li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            {/* Quantity Selector and Buttons */}
-            <div className="flex items-center space-x-3 py-5 mt-2 border-t dark:border-zinc-700 w-full h-full">
+            <div className="flex items-center gap-5 w-full h-full">
               <div className="w-full">
                 <motion.div whileHover={{ scale: 1.05 }}>
                   <Button
@@ -287,13 +282,17 @@ export default function ProductPage() {
                 </motion.div>
               </div>
             </div>
-          </section>
+          </motion.section>
 
           {/* Product Details Section */}
-          <section
+          <motion.section
+            initial={{ opacity: 0, y: 300 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
             id="ID2"
-            className="sticky top-20 overflow-auto px-5 w-full h-full"
+            className="sticky top-20 overflow-auto pl-7 w-[60%] h-full"
           >
+            {/* Product Title, Rating, Reviews, Description */}
             <div>
               <h1 className="text-black dark:text-white text-3xl title-font font-medium mb-1">
                 {product.title}
@@ -323,13 +322,14 @@ export default function ProductPage() {
             </div>
 
             {/* Color and Size Selectors */}
-            <div className="flex my-6 items-center gap-10 opacity-70 w-full">
-              {product.sizes.length && (
+            <div className="flex my-6 items-center gap-10 w-full">
+              {/* Size Selector */}
+              {product.sizes && product.sizes.length > 0 && (
                 <div className="flex items-center w-40">
                   <div className="relative w-full">
                     <Select>
-                      <SelectTrigger className="dark:border-zinc-700 w-full">
-                        <SelectValue placeholder="Select Size" />
+                      <SelectTrigger className="border dark:border-zinc-700 w-full">
+                        <SelectValue placeholder="M" />
                       </SelectTrigger>
                       <SelectContent>
                         {product.sizes.map((size, index) => (
@@ -344,31 +344,39 @@ export default function ProductPage() {
               )}
 
               {/* Color Selector */}
-              <div className="flex items-center w-full h-10">
-                <span className="mr-2">Colors :</span>
-                {product.colors.map((color, index) => (
+              {product.colors && product.colors.length > 0 && (
+                <div className="flex items-center gap-1 w-full h-10">
+                  <span className="mr-1">Colors :</span>
                   <motion.button
-                    key={index}
-                    aria-label={`Color option ${color}`}
-                    onClick={() => setSelectedColor(color)}
+                    aria-label={`Color option None`}
+                    onClick={() => setSelectedColor("")}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className={`border border-zinc-800 dark:border-zinc-800 rounded-full w-6 h-6 ${
-                      selectedColor === color ? "ring-2 ring-blue-500" : ""
-                    }`}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
+                    className="relative bg-transparent border border-zinc-500 dark:border-white mt-1 rounded-full shadow-lg w-5 h-5"
+                  >
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-full h-px bg-red-500 transform rotate-45" />
+                    </div>
+                  </motion.button>
+                  {product.colors.map((color, index) => (
+                    <motion.button
+                      key={index}
+                      aria-label={`Color option ${color}`}
+                      onClick={() => setSelectedColor(color)}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className={`border border-zinc-500 dark:border-white mt-1 rounded-full shadow-lg ${
+                        selectedColor === color ? "w-6 h-6" : "w-5 h-5"
+                      }`}
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Price and Pincode Checker */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center justify-between border-t border-b dark:border-zinc-700 my-5 w-full h-20"
-            >
+            <div className="flex items-center justify-between border-t border-b dark:border-zinc-700 my-5 w-full h-20">
               <motion.p className="text-3xl font-bold w-1/2">
                 {rounded}
               </motion.p>
@@ -415,8 +423,8 @@ export default function ProductPage() {
                   </motion.div>
                 )}
               </div>
-            </motion.div>
-          </section>
+            </div>
+          </motion.section>
         </div>
       </motion.main>
     </>

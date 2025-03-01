@@ -19,7 +19,7 @@ interface ProductAPIResponse {
     alternativeText: string;
   };
   gallery?: { url: string }[];
-  tags?: string[];
+  tags: string;
 }
 
 // Utility function to fetch products
@@ -39,7 +39,7 @@ const fetchProducts = async (API_URL: string) => {
       ? `${API_URL}${product.image.url}`
       : "/noimage.png",
     price: product.price?.toString() || "0",
-    tags: product.tags || [], // Fetch tags from API
+    tags: product.tags || "", // Fetch tags from API
   }));
 };
 
@@ -56,7 +56,7 @@ const ProductsList = () => {
       link: string;
       image: string;
       price: string;
-      tags: string[];
+      tags: string;
     }[]
   >([]);
   const [loading, setLoading] = useState(true);

@@ -540,7 +540,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
         minLength: 3;
       }>;
     stock: Schema.Attribute.BigInteger & Schema.Attribute.Required;
-    tags: Schema.Attribute.Enumeration<['Best Seller', 'New']>;
+    tags: Schema.Attribute.String;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

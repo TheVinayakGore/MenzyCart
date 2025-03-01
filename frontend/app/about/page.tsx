@@ -238,7 +238,7 @@ const page = () => {
               className="bg-white dark:bg-zinc-900 p-10 rounded-xl shadow-xl border dark:border-zinc-700 text-center cursor-pointer"
             >
               {/* Team Member Image */}
-              <div className="relative h-40 w-40 mx-auto mb-4">
+              <div className="relative h-32 w-32 mx-auto mb-4">
                 <Image
                   src={member.image}
                   alt={member.name}
