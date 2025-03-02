@@ -1,0 +1,181 @@
+const categories = [
+  {
+    name: "👕 Clothing",
+    items: [
+      {
+        title: "T-Shirts",
+        href: "/clothing/t-shirts",
+        description: "Comfortable and stylish t-shirts for men.",
+        image: "/card.png",
+      },
+      {
+        title: "Jeans",
+        href: "/clothing/jeans",
+        description: "Durable and trendy jeans for all occasions.",
+        image: "/card.png",
+      },
+      {
+        title: "Shirts",
+        href: "/clothing/shirts",
+        description: "Formal and casual shirts for a polished look.",
+        image: "/card.png",
+      },
+      {
+        title: "Jackets",
+        href: "/clothing/jackets",
+        description: "Warm and fashionable jackets for the season.",
+        image: "/card.png",
+      },
+    ],
+  },
+  {
+    name: "👞 Footwear",
+    items: [
+      {
+        title: "Sneakers",
+        href: "/footwear/sneakers",
+        description: "Casual and sporty sneakers for everyday wear.",
+        image: "/card.png",
+      },
+      {
+        title: "Formal Shoes",
+        href: "/footwear/formal-shoes",
+        description: "Elegant shoes for formal occasions.",
+        image: "/card.png",
+      },
+      {
+        title: "Sandals",
+        href: "/footwear/sandals",
+        description: "Comfortable sandals for a relaxed vibe.",
+        image: "/card.png",
+      },
+      {
+        title: "Boots",
+        href: "/footwear/boots",
+        description: "Stylish boots for rugged and casual looks.",
+        image: "/card.png",
+      },
+    ],
+  },
+  {
+    name: "🕶️ Accessories",
+    items: [
+      {
+        title: "Watches",
+        href: "/accessories/watches",
+        description: "Luxury and casual watches for men.",
+        image: "/card.png",
+      },
+      {
+        title: "Belts",
+        href: "/accessories/belts",
+        description: "Durable and stylish belts to complete your outfit.",
+        image: "/card.png",
+      },
+      {
+        title: "Sunglasses",
+        href: "/accessories/sunglasses",
+        description: "Trendy sunglasses for a cool look.",
+        image: "/card.png",
+      },
+      {
+        title: "Hats",
+        href: "/accessories/hats",
+        description: "Fashionable hats for all seasons.",
+        image: "/card.png",
+      },
+    ],
+  },
+  {
+    name: "⌚ Watches",
+    items: [
+      {
+        title: "Analog",
+        href: "/watches/analog",
+        description: "Classic analog watches for a timeless look.",
+        image: "/card.png",
+      },
+      {
+        title: "Digital",
+        href: "/watches/digital",
+        description: "Modern digital watches with advanced features.",
+        image: "/card.png",
+      },
+      {
+        title: "Smartwatches",
+        href: "/watches/smartwatches",
+        description: "Smartwatches for fitness and connectivity.",
+        image: "/card.png",
+      },
+    ],
+  },
+  {
+    name: "✂️ Grooming",
+    items: [
+      {
+        title: "Shaving",
+        href: "/grooming/shaving",
+        description: "Premium shaving products for a smooth experience.",
+        image: "/card.png",
+      },
+      {
+        title: "Skincare",
+        href: "/grooming/skincare",
+        description: "Skincare essentials for healthy skin.",
+        image: "/card.png",
+      },
+      {
+        title: "Haircare",
+        href: "/grooming/haircare",
+        description: "Haircare products for a fresh look.",
+        image: "/card.png",
+      },
+    ],
+  },
+  {
+    name: "🧥 Outerwear",
+    items: [
+      {
+        title: "Coats",
+        href: "/outerwear/coats",
+        description: "Warm and stylish coats for winter.",
+        image: "/card.png",
+      },
+      {
+        title: "Jackets",
+        href: "/outerwear/jackets",
+        description: "Trendy jackets for a casual look.",
+        image: "/card.png",
+      },
+      {
+        title: "Hoodies",
+        href: "/outerwear/hoodies",
+        description: "Comfortable hoodies for everyday wear.",
+        image: "/card.png",
+      },
+    ],
+  },
+  {
+    name: "⚽ Sports",
+    items: [
+      {
+        title: "Gym Wear",
+        href: "/sports/gym-wear",
+        description: "Performance gym wear for workouts.",
+        image: "/card.png",
+      },
+      {
+        title: "Shoes",
+        href: "/sports/running-shoes",
+        description: "Comfortable shoes for running.",
+        image: "/card.png",
+      },
+      {
+        title: "Sports",
+        href: "/sports/accessories",
+        description: "Essential accessories for sports.",
+        image: "/card.png",
+      },
+    ],
+  },
+];

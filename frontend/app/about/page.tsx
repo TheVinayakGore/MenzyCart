@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import FAQ from "@/components/FAQ";
 
 const page = () => {
   return (
@@ -61,9 +62,7 @@ const page = () => {
           transition={{ duration: 0.6 }}
           className="flex flex-col items-start gap-6 w-1/2"
         >
-          <h2 className="text-6xl md:text-7xl font-bold -mt-3">
-            Our Story
-          </h2>
+          <h2 className="text-6xl md:text-7xl font-bold -mt-3">Our Story</h2>
           <p className="text-lg text-gray-600 dark:text-gray-400">
             Founded in 2020, our journey began with a simple idea: to create an
             eCommerce platform that prioritizes quality, affordability, and
@@ -288,6 +287,11 @@ const page = () => {
             </motion.div>
           ))}
         </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="w-full h-full">
+        <FAQ />
       </section>
     </motion.main>
   );

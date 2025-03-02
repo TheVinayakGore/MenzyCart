@@ -3,69 +3,78 @@ import React from "react";
 import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Filters from "./Filters";
+import Banners from "./Banners";
 
 const Hero = () => {
   return (
-    <main className="relative flex flex-col items-center justify-center gap-32 pt-40 min-h-screen w-full bg-sky-50 dark:bg-zinc-900">
-      <div className="absolute inset-0 bg-gradient-to-b from-sky-100 via-white to-white dark:from-zinc-900 dark:via-zinc-950 dark:to-black"></div>
+    <>
+      <main className="relative flex flex-col items-center justify-center pt-32 min-h-screen w-full bg-sky-50 dark:bg-zinc-900">
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-100 via-white to-white dark:from-zinc-900 dark:via-zinc-950 dark:to-black"></div>
+        <Filters />
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="flex flex-col items-center m-auto gap-10 relative max-w-7xl text-center px-6"
-      >
-        <h1 className="text-5xl font-extrabold sm:text-8xl">
-          Elevate Your{" "}
-          <span className="text-sky-500 dark:text-sky-400">Shopping</span>{" "}
-          Experience
-        </h1>
-        <p className="m-5 text-lg opacity-60 max-w-xl mx-auto">
-          Discover high-quality products at unbeatable prices. Start your
-          journey with us today !
-        </p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-6 flex gap-4 justify-center"
-        >
-          <Link
-            href="/shop"
-            className="bg-sky-500 hover:bg-white border border-white hover:border-sky-500 text-white hover:text-sky-600 px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 shadow-lg"
+        <div className="flex flex-col items-center gap-20 pt-24 w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col items-center m-auto gap-10 relative max-w-7xl text-center px-6"
           >
-            Shop Now
-          </Link>
-          <Link
-            href="/categories"
-            className="border border-zinc-700 dark:border-zinc-500 opacity-50 hover:opacity-100 px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 shadow-lg"
-          >
-            Explore Categories
-          </Link>
-        </motion.div>
-      </motion.div>
+            <h1 className="text-5xl font-extrabold sm:text-8xl">
+              Elevate Your{" "}
+              <span className="text-sky-500 dark:text-sky-400">Shopping</span>{" "}
+              Experience
+            </h1>
+            <p className="m-5 text-lg opacity-60 max-w-xl mx-auto">
+              Discover high-quality products at unbeatable prices. Start your
+              journey with us today !
+            </p>
 
-      <div className="overflow-hidden w-full">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="h-full flex flex-col antialiased items-center justify-center relative overflow-hidden"
-        >
-          <InfiniteMovingCards
-            items={products} // Use updated product array
-            direction="right"
-            speed="fast"
-          />
-          <InfiniteMovingCards
-            items={products} // Use updated product array
-            direction="left"
-            speed="fast"
-          />
-        </motion.div>
-      </div>
-    </main>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="mt-6 flex gap-4 justify-center"
+            >
+              <Link
+                href="/shop"
+                className="bg-sky-500 hover:bg-white border border-white hover:border-sky-500 text-white hover:text-sky-600 px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 shadow-lg"
+              >
+                Shop Now
+              </Link>
+              <Link
+                href="/categories"
+                className="border border-zinc-700 dark:border-zinc-500 opacity-50 hover:opacity-100 px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 shadow-lg"
+              >
+                Explore Categories
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          <Banners />
+
+          <div className="overflow-hidden w-full">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="h-full flex flex-col antialiased items-center justify-center relative overflow-hidden"
+            >
+              <InfiniteMovingCards
+                items={products} // Use updated product array
+                direction="right"
+                speed="fast"
+              />
+              <InfiniteMovingCards
+                items={products} // Use updated product array
+                direction="left"
+                speed="fast"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </main>
+    </>
   );
 };
 

@@ -8,10 +8,7 @@ import { HiOutlineShoppingCart } from "react-icons/hi2";
 import { HiOutlineSun } from "react-icons/hi2";
 import { IoMoonOutline } from "react-icons/io5";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
-import {
-  Drawer,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import Cart from "@/app/products/Cart";
 
 const Navbar = () => {
@@ -43,7 +40,7 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 z-[100] bg-white/[0.8] dark:bg-zinc-900/[0.8] backdrop-blur-lg shadow-md w-full">
-      <ul className="container mx-auto flex items-center justify-between p-2">
+      <ul className="flex items-center justify-between p-3 px-10 w-full">
         <li>
           <Link href="/" className="flex items-center gap-2">
             <Image

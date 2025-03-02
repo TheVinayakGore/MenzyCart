@@ -45,7 +45,10 @@ export const ImagesSlider: React.FC<ImagesSliderProps> = ({
         const img = new Image();
         img.src = image;
         img.onload = () => resolve(image);
-        img.onerror = () => reject(`Failed to load ${image}`);
+        img.onerror = (e) => {
+          console.error(`Error loading image: ${image}`, e);
+          reject(`Failed to load ${image}`);
+        };
       });
     };
 
@@ -102,9 +105,7 @@ export const ImagesSlider: React.FC<ImagesSliderProps> = ({
       {!loading && loadedImages.length > 0 && children}
 
       {!loading && overlay && (
-        <div
-          className={cn("absolute inset-0 z-40", overlayClassName)}
-        />
+        <div className={cn("absolute inset-0 z-40", overlayClassName)} />
       )}
 
       <AnimatePresence>
@@ -116,6 +117,8 @@ export const ImagesSlider: React.FC<ImagesSliderProps> = ({
             animate="visible"
             exit="exit"
             variants={slideVariants}
+            width={5000}
+            height={5000}
             className="absolute inset-0 h-full w-full"
           />
         )}

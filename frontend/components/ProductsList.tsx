@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { HoverEffect } from "./ui/card-hover-effect";
-import { Button } from "./ui/button";
-import { IoFilterOutline } from "react-icons/io5";
+import { motion } from "framer-motion";
 
 // Define the API response structure
 interface ProductAPIResponse {
@@ -87,50 +86,43 @@ const ProductsList = () => {
 
   if (loading) return <Loading />;
 
-  const filters = [
-    "All",
-    "Electronics",
-    "Clothing",
-    "Accessories",
-    "Home",
-    "Sports",
-    "Clothing",
-    "Accessories",
-    "Home",
-    "Sports",
-    "Clothing",
-    "Accessories",
-    "Home",
-    "Sports",
-    "Clothing",
-    "Accessories",
-    "Home",
-    "Sports",
-  ];
-
   return (
     <>
       <main className="flex flex-col items-start w-full">
-        <section className="border rounded-t-xl w-full">
-          <div className="flex items-center gap-5 px-4 whitespace-nowrap">
-            <div className="flex items-center px-3 gap-3">
-              <IoFilterOutline />
-              <span className="text-base font-medium">Filters</span>
-            </div>
-            <div className="flex items-start overflow-auto gap-5 py-5 px-2 w-full">
-              {filters.map((filter, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="px-10 transition-all hover:bg-sky-500 dark:border-zinc-800 hover:text-white hover:scale-110"
-                >
-                  {filter}
-                </Button>
-              ))}
-            </div>
-          </div>
+        {/* Explore Products Section */}
+        <section className="flex flex-col items-start gap-5 w-full">
+          {/* Heading with Motion Animation */}
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="text-4xl font-semibold"
+          >
+            Explore Products
+          </motion.h1>
+
+          {/* Paragraph with Motion Animation */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="text-lg text-gray-700 dark:text-gray-300"
+          >
+            Discover a wide range of high-quality products tailored to meet your
+            needs. From stylish clothing and comfortable footwear to essential
+            accessories and grooming products, we offer everything you need to
+            elevate your lifestyle. Our collection is carefully curated to
+            ensure the best in design, functionality, and affordability. Whether
+            you are looking for the latest trends or timeless classics, you will
+            find it here. Start exploring now and find the perfect products for
+            you!
+          </motion.p>
         </section>
-        <section className="border border-t-0 rounded-b-xl overflow-auto w-full h-[100rem]">
+
+        {/* Products Section */}
+        <section className="w-full h-full mt-8">
           <HoverEffect items={products} />
         </section>
       </main>

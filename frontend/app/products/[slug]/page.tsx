@@ -294,7 +294,7 @@ export default function ProductPage() {
           >
             {/* Product Title, Rating, Reviews, Description */}
             <div>
-              <h1 className="text-black dark:text-white text-3xl title-font font-medium mb-1">
+              <h1 className="text-black dark:text-white text-4xl title-font font-semibold mb-1">
                 {product.title}
               </h1>
               <div className="flex mb-3">
