@@ -74,7 +74,7 @@ export const Menu = ({
   return (
     <nav
       onMouseLeave={() => setActive(null)} // resets the state
-      className="relative flex items-center justify-between m-auto bg-sky-200 dark:bg-sky-950 border border-sky-500 rounded-full max-w-7xl px-10 p-5 shadow-lg"
+      className="relative flex items-center justify-between m-auto border border-sky-500 rounded-full max-w-7xl px-10 p-5 shadow-lg animate-shimmer bg-[linear-gradient(110deg,#bae6fd,45%,#90d9ff,55%,#bae6fd)] dark:bg-[linear-gradient(110deg,#082f49,45%,#0c4a6e,55%,#082f49)] bg-[length:200%_100%]"
     >
       {children}
     </nav>

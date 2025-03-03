@@ -22,9 +22,9 @@ export const HoverEffect = ({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div
+    <main
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-5",
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-5",
         className
       )}
     >
@@ -65,14 +65,11 @@ export const HoverEffect = ({
               />
             </div>
             <div className="flex flex-col items-start justify-between pt-3 h-full">
-              <div className="flex flex-col items-start">
-                <CardTitle>{item.title}</CardTitle>
-                <CardDescription>{item.description}</CardDescription>
-              </div>
-              <p className="mt-5 text-lg font-medium text-sky-500 dark:text-sky-400">
+              <CardTitle>{item.title}</CardTitle>
+              <b className="text-xl text-sky-500 dark:text-sky-400">
                 ₹{item.price}
-              </p>
-              {item.tags && (
+              </b>
+              {/* {item.tags && (
                 <div
                   className={`absolute top-0 left-0 m-4 ${
                     item.tags && "bg-sky-400"
@@ -80,12 +77,12 @@ export const HoverEffect = ({
                 >
                   {item.tags}
                 </div>
-              )}
+              )} */}
             </div>
           </Card>
         </Link>
       ))}
-    </div>
+    </main>
   );
 };
 
@@ -120,27 +117,8 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h1 className={cn("text-2xl font-medium tracking-wide mt-2", className)}>
+    <h1 className={cn("text-2xl tracking-wide my-2", className)}>
       {children}
     </h1>
-  );
-};
-
-export const CardDescription = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <p
-      className={cn(
-        "mt-2 opacity-60 tracking-wide leading-relaxed text-sm",
-        className
-      )}
-    >
-      {children}
-    </p>
   );
 };

@@ -69,8 +69,8 @@ const Filters = () => {
               title: item.title,
               href: item.href,
               image: item.image?.url
-              ? `http://localhost:1337${item.image.url}`
-              : "/card.png",            
+                ? `http://localhost:1337${item.image.url}`
+                : "/card.png",
               description: item.description,
             })),
           })
@@ -134,3 +134,8 @@ const Filters = () => {
 };
 
 export default Filters;
+
+
+            
+
+      

@@ -31,7 +31,7 @@ const fetchProducts = async (API_URL: string) => {
     description:
       Array.isArray(product.description) &&
       product.description[0]?.children[0]?.text
-        ? product.description[0].children[0].text.slice(0, 165) + "..."
+        ? product.description[0].children[0].text
         : "No description",
     link: `/products/${product.slug || "no-slug"}`,
     image: product.image?.url
