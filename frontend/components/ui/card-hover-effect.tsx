@@ -1,9 +1,9 @@
 "use client";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 export const HoverEffect = ({
   items,
@@ -11,6 +11,7 @@ export const HoverEffect = ({
 }: {
   items: {
     title: string;
+    category: string;
     description: string;
     link: string;
     image: string;
@@ -24,7 +25,7 @@ export const HoverEffect = ({
   return (
     <main
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-5",
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 py-5 w-full h-full",
         className
       )}
     >
@@ -55,21 +56,24 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card className="flex flex-col items-start justify-between border-sky-300 dark:border-sky-700 relative rounded-lg w-full h-full">
-            <div className="w-full">
+            <div className="w-full h-full">
               <Image
                 src={item.image}
                 alt={item.title}
                 width={2000}
                 height={2000}
-                className="rounded-md border w-full h-full"
+                className="rounded-md border w-full h-80"
               />
             </div>
             <div className="flex flex-col items-start justify-between pt-3 h-full">
+              <p className="text-xs text-green-500 font-medium uppercase tracking-wide">
+                {item.category.slice(2)}
+              </p>
               <CardTitle>{item.title}</CardTitle>
-              <b className="text-xl text-sky-500 dark:text-sky-400">
+              <b className="text-lg text-sky-500 dark:text-sky-400">
                 ₹{item.price}
               </b>
-              {/* {item.tags && (
+              {item.tags && (
                 <div
                   className={`absolute top-0 left-0 m-4 ${
                     item.tags && "bg-sky-400"
@@ -77,7 +81,7 @@ export const HoverEffect = ({
                 >
                   {item.tags}
                 </div>
-              )} */}
+              )}
             </div>
           </Card>
         </Link>
@@ -116,9 +120,5 @@ export const CardTitle = ({
   className?: string;
   children: React.ReactNode;
 }) => {
-  return (
-    <h1 className={cn("text-2xl tracking-wide my-2", className)}>
-      {children}
-    </h1>
-  );
+  return <h1 className={cn("text-xl", className)}>{children}</h1>;
 };

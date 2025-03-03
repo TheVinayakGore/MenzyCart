@@ -8,6 +8,10 @@ import { motion } from "framer-motion";
 interface ProductAPIResponse {
   id: number;
   title: string;
+  category: {
+    id: number;
+    name: string;
+  };
   slug: string;
   description: string;
   price: number;
@@ -28,6 +32,7 @@ const fetchProducts = async (API_URL: string) => {
   );
   return response.data.data.map((product) => ({
     title: product.title || "Untitled Product",
+    category: product.category?.name || "Uncategorized",
     description:
       Array.isArray(product.description) &&
       product.description[0]?.children[0]?.text
@@ -38,7 +43,7 @@ const fetchProducts = async (API_URL: string) => {
       ? `${API_URL}${product.image.url}`
       : "/noimage.png",
     price: product.price?.toString() || "0",
-    tags: product.tags || "", // Fetch tags from API
+    tags: product.tags || "",
   }));
 };
 
@@ -51,6 +56,7 @@ const ProductsList = () => {
   const [products, setProducts] = useState<
     {
       title: string;
+      category: string;
       description: string;
       link: string;
       image: string;
@@ -59,6 +65,7 @@ const ProductsList = () => {
     }[]
   >([]);
   const [loading, setLoading] = useState(true);
+
   const API_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
   useEffect(() => {

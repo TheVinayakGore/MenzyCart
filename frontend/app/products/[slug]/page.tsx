@@ -16,11 +16,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 interface Product {
   id: string;
   title: string;
   description: string;
+  category: {
+    id: number;
+    name: string;
+  };
+  brand: string;
+  tags: string;
   price: number;
   stock: number;
   imageUrl: string;
@@ -40,14 +54,23 @@ export default function ProductPage() {
   const [selectedColor, setSelectedColor] = useState("");
   const [liked, setLiked] = useState(false);
   const [showMessage, setShowMessage] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    address: "",
+  });
 
   const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) => `₹${latest.toFixed(2)}`);
+  const animatedPrice = useTransform(
+    count,
+    (latest) => `₹${latest.toFixed(2)}`
+  );
 
   useEffect(() => {
     if (product?.price) {
       const controls = animate(count, product.price, {
-        duration: 2, // Smooth animation
+        duration: 2.5, // Smooth animation
         ease: "easeOut",
       });
 
@@ -103,6 +126,9 @@ export default function ProductPage() {
             const productData: Product = {
               id: fetchedProduct.id,
               title: fetchedProduct.title,
+              tags: fetchedProduct.tags,
+              category: fetchedProduct.category || "Uncategorized",
+              brand: fetchedProduct.brand || "Unknown Brand",
               description: fetchedProduct.description
                 ? fetchedProduct.description
                     .map((block: ProductDescriptionBlock) =>
@@ -114,7 +140,7 @@ export default function ProductPage() {
               stock: parseInt(fetchedProduct.stock, 10) || 0,
               imageUrl: fetchedProduct.image?.url
                 ? `http://localhost:1337${fetchedProduct.image.url}`
-                : "/placeholder.jpg",
+                : "/card.png",
               gallery: fetchedProduct.gallery
                 ? fetchedProduct.gallery.map(
                     (img: { url: string }) => `http://localhost:1337${img.url}`
@@ -126,6 +152,7 @@ export default function ProductPage() {
               sizes: fetchedProduct.sizes || [], // Directly use sizes array
             };
             setProduct(productData);
+            setSelectedImage(productData.imageUrl);
           }
         } catch (error) {
           toast.error("Error fetching product: " + error);
@@ -198,6 +225,40 @@ export default function ProductPage() {
     );
   };
 
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handlePayment = () => {
+    toast
+      .promise(
+        new Promise<string>((resolve, reject) => {
+          if (!formData.fullName || !formData.email || !formData.address) {
+            reject("Any field is empty, please try again !");
+            return;
+          }
+
+          setTimeout(() => {
+            resolve("Payment successful !");
+          }, 2000);
+        }),
+        {
+          loading: "Processing your payment...",
+          success: (message) => (
+            <b className="text-lg font-semibold">{message} 🎉</b>
+          ),
+          error: (message) => (
+            <b className="text-lg font-semibold">{message} 😢</b>
+          ),
+        }
+      )
+      .then(() => {
+        // Clear the form after successful payment
+        setFormData({ fullName: "", email: "", address: "" });
+      })
+      .catch(() => {}); // Prevent unhandled promise rejection warning
+  };
+
   return (
     <>
       <motion.main
@@ -218,7 +279,7 @@ export default function ProductPage() {
             <div className="flex items-start justify-start gap-2 border dark:border-zinc-700 rounded-md p-2 w-full h-[36rem]">
               <div className="flex items-start w-full h-full">
                 <Image
-                  src={product.imageUrl}
+                  src={selectedImage}
                   alt={product.title}
                   width={2000}
                   height={2000}
@@ -229,23 +290,33 @@ export default function ProductPage() {
                   onClick={handleLikeClick}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className="-ml-12 mt-2 border-none shadow-md"
+                  className="-ml-12 mt-2 border-none shadow-md rounded-full"
                 >
                   <PiHeartFill
                     className={`h-10 w-10 bg-white/[0.3] hover:text-rose-600 rounded-full p-2 ${
-                      liked
-                        ? "text-rose-600 shadow-lg"
-                        : "text-zinc-300"
+                      liked ? "text-rose-600 shadow-lg" : "text-zinc-300"
                     }`}
                   />
                 </motion.button>
+                {product.tags && (
+                  <div
+                    className={`absolute top-0 left-0 ${
+                      product.tags && "bg-sky-400"
+                    } text-lg text-white p-2 px-7 rounded-tl-md rounded-br-xl`}
+                  >
+                    {product.tags}
+                  </div>
+                )}
               </div>
               <div className="overflow-auto h-full">
                 {product.gallery?.length > 0 && (
                   <ul className="flex flex-col items-start justify-start gap-3 pb-3 border-b-4 rounded-b-sm dark:border-zinc-700 overflow-x-auto w-full">
                     {product.gallery.map((image, index) => (
                       <li key={index}>
-                        <button className="border dark:border-zinc-700 focus:bg-sky-400 p-1 rounded">
+                        <button
+                          className="border dark:border-zinc-700 focus:bg-sky-400 p-1 rounded"
+                          onClick={() => setSelectedImage(image)} // Update the selected image on click
+                        >
                           <Image
                             src={image}
                             alt={`Gallery image ${index + 1} of ${
@@ -264,23 +335,120 @@ export default function ProductPage() {
               </div>
             </div>
             <div className="flex items-center gap-5 w-full h-full">
-              <div className="w-full">
-                <motion.div whileHover={{ scale: 1.05 }}>
-                  <Button
-                    variant="outline"
-                    className="text-lg font-medium dark:border-zinc-700 hover:bg-sky-500 hover:text-white h-14 w-full"
-                  >
-                    Add to Cart
-                  </Button>
-                </motion.div>
-              </div>
-              <div className="w-full">
-                <motion.div whileHover={{ scale: 1.05 }}>
-                  <Button className="text-lg font-medium hover:bg-yellow-500 h-14 w-full">
-                    Buy Now
-                  </Button>
-                </motion.div>
-              </div>
+              <motion.div whileHover={{ scale: 1.05 }} className="w-full">
+                <Button
+                  variant="outline"
+                  className="text-lg font-medium dark:border-zinc-700 hover:bg-sky-500 hover:text-white h-14 w-full"
+                >
+                  Add to Cart
+                </Button>
+              </motion.div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <motion.div whileHover={{ scale: 1.05 }} className="w-full">
+                    <Button className="text-lg font-medium hover:bg-yellow-500 h-14 w-full">
+                      Buy Now
+                    </Button>
+                  </motion.div>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle className="text-3xl font-semibold">
+                      Product Preview
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div className="flex items-start justify-start gap-5 m-auto w-full">
+                      <Image
+                        src={selectedImage}
+                        alt={product.title}
+                        width={200}
+                        height={200}
+                        className="rounded-md border w-1/2"
+                      />
+                      <div className="flex flex-col items-start -mt-2 w-1/2">
+                        <h1 className="text-3xl title-font font-semibold">
+                          {product.title}
+                        </h1>
+                        <div className="flex items-center justify-start gap-2 -ml-1 text-sm uppercase w-full h-5 mb-1">
+                          <p className="text-sky-400">
+                            {product.category?.name.slice(2)}
+                          </p>
+                          <span className="mb-1 opacity-30">|</span>
+                          <p className="opacity-40">{product.brand}</p>
+                        </div>
+                        <div className="flex">
+                          <div className="flex items-center">
+                            {[...Array(product.rating)].map((_, index) => (
+                              <FaStar
+                                key={index}
+                                className="text-yellow-400 text-base"
+                              />
+                            ))}
+                            {[...Array(5 - product.rating)].map((_, index) => (
+                              <FaRegStar
+                                key={index}
+                                className="text-yellow-400 text-base"
+                              />
+                            ))}
+                            <motion.span className="text-base opacity-60 ml-3">
+                              {product.reviews >= 1000
+                                ? `${(product.reviews / 1000).toFixed(2)}K`
+                                : product.reviews}{" "}
+                              Reviews
+                            </motion.span>
+                          </div>
+                        </div>
+                        <p className="leading-relaxed text-base opacity-80 my-2">
+                          {product.description.slice(0, 190)}...
+                        </p>
+                        <p className="text-2xl text-sky-400 font-bold">
+                          ₹{product.price.toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="opacity-50">
+                      Complete your purchase by providing your details below.
+                    </p>
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="Full Name"
+                      value={formData.fullName}
+                      onChange={handleFormChange}
+                      required
+                      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email Address"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                      required
+                      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    />
+                    <input
+                      type="text"
+                      name="address"
+                      placeholder="Shipping Address"
+                      value={formData.address}
+                      onChange={handleFormChange}
+                      required
+                      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    />
+                    <DialogClose asChild>
+                      <Button
+                        onClick={handlePayment}
+                        type="button"
+                        className="text-base py-5 font-medium w-full bg-sky-400 hover:bg-sky-500"
+                      >
+                        Proceed to Payment
+                      </Button>
+                    </DialogClose>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </motion.section>
 
@@ -294,9 +462,16 @@ export default function ProductPage() {
           >
             {/* Product Title, Rating, Reviews, Description */}
             <div>
-              <h1 className="text-black dark:text-white text-4xl title-font font-semibold mb-1">
+              <h1 className="text-4xl title-font font-semibold mb-2">
                 {product.title}
               </h1>
+              <div className="flex items-center justify-start gap-2 text-base uppercase w-full h-5 mb-1">
+                <p className="text-sky-400">
+                  {product.category?.name.slice(2)}
+                </p>
+                <span className="mb-1 opacity-30">|</span>
+                <p className="opacity-40">{product.brand}</p>
+              </div>
               <div className="flex mb-3">
                 <div className="flex items-center">
                   {[...Array(product.rating)].map((_, index) => (
@@ -376,14 +551,14 @@ export default function ProductPage() {
             </div>
 
             {/* Price and Pincode Checker */}
-            <div className="flex items-center justify-between border-t border-b dark:border-zinc-700 my-5 w-full h-20">
-              <motion.p className="text-3xl font-bold w-1/2">
-                {rounded}
+            <div className="flex items-center justify-between border-t border-b dark:border-zinc-700 mt-5 w-full h-20">
+              <motion.p className="text-3xl text-sky-400 font-bold w-1/2">
+                {animatedPrice}
               </motion.p>
               <div className="w-full">
                 <div className="flex items-center gap-2 w-full">
                   <Input
-                    type="text"
+                    type="number"
                     id="pincode"
                     name="pincode"
                     placeholder="Check Pincode"

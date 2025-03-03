@@ -68,6 +68,37 @@
     },
     "tags": {
       "type": "string"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
+    "brand": {
+      "type": "enumeration",
+      "enum": [
+        "Nike",
+        "Adidas",
+        "Puma",
+        "Under Armour",
+        "Reebok",
+        "Levi’s",
+        "Hugo Boss",
+        "Jack & Jones",
+        "Zara Man",
+        "Raymond",
+        "Fastrack",
+        "Apple",
+        "Samsung",
+        "OnePlus",
+        "Sony",
+        "TAG Heuer",
+        "Oakley",
+        "Tommy Hilfiger",
+        "Calvin Klein",
+        "Ralph Lauren"
+      ],
+      "required": true
     }
   }
 }

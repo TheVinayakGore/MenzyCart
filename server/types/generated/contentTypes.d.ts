@@ -572,6 +572,32 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    brand: Schema.Attribute.Enumeration<
+      [
+        'Nike',
+        'Adidas',
+        'Puma',
+        'Under Armour',
+        'Reebok',
+        'Levi\u2019s',
+        'Hugo Boss',
+        'Jack & Jones',
+        'Zara Man',
+        'Raymond',
+        'Fastrack',
+        'Apple',
+        'Samsung',
+        'OnePlus',
+        'Sony',
+        'TAG Heuer',
+        'Oakley',
+        'Tommy Hilfiger',
+        'Calvin Klein',
+        'Ralph Lauren',
+      ]
+    > &
+      Schema.Attribute.Required;
+    category: Schema.Attribute.Relation<'oneToOne', 'api::category.category'>;
     colors: Schema.Attribute.JSON;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
