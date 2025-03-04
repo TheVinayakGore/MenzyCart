@@ -27,6 +27,13 @@ import Image from "next/image";
 import { GoPlus } from "react-icons/go";
 import { HiMiniMinusSmall } from "react-icons/hi2";
 import toast from "react-hot-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 // Updated Product type
 type Product = {
@@ -64,6 +71,8 @@ const Page = () => {
   });
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isCardContentVisible, setIsCardContentVisible] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Save products to localStorage whenever products state changes
   useEffect(() => {
@@ -162,6 +171,12 @@ const Page = () => {
   // Toggle function to show/hide CardContent
   const toggleCardContent = () => {
     setIsCardContentVisible((prev) => !prev);
+  };
+
+  // Open dialog with product details
+  const openProductDialog = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDialogOpen(true);
   };
 
   return (
@@ -494,7 +509,11 @@ const Page = () => {
               </TableHeader>
               <TableBody className="border-b whitespace-nowrap overflow-auto h-20">
                 {products.map((product) => (
-                  <TableRow key={product.id} className="">
+                  <TableRow
+                    key={product.id}
+                    className=""
+                    onClick={() => openProductDialog(product)}
+                  >
                     {/* Title */}
                     <TableCell className="w-40 border-l border-r h-20">
                       {product.title || "-"}
@@ -502,7 +521,7 @@ const Page = () => {
 
                     {/* Description */}
                     <TableCell className="w-64 border-r h-20">
-                      {product.description || "-"}
+                      {product.description.slice(0, 70) || "-"}...
                     </TableCell>
 
                     {/* Price */}
@@ -537,7 +556,7 @@ const Page = () => {
                     </TableCell>
 
                     {/* Gallery */}
-                    <TableCell className="w-64 border-r h-20">
+                    <TableCell className="w-64 whitespace-nowrap overflow-auto border-r h-20">
                       {product.gallery && product.gallery.length > 0 ? (
                         product.gallery.map((url, index) => (
                           <Image
@@ -580,7 +599,8 @@ const Page = () => {
                                 className="flex items-center gap-1"
                               >
                                 <div
-                                  className={`bg-${color}-500 rounded-full mt-1 w-3 h-3`}
+                                  className={`rounded-full mt-1 w-3 h-3`}
+                                  style={{ backgroundColor: `#${color}` }}
                                 ></div>
                                 {color}
                               </li>
@@ -601,22 +621,26 @@ const Page = () => {
                     </TableCell>
 
                     {/* Actions */}
-                    <TableCell className="flex flex-col items-center justify-between py-3 w-20 border-r h-20">
-                      <button
+                    <TableCell className="flex flex-col items-center justify-center m-auto gap-1 w-20 border-r h-20">
+                      <Button
                         onClick={() => {
                           setEditingProduct(product);
                           setIsCardContentVisible((prev) => !prev);
                         }}
+                        variant="outline"
+                        size="icon"
                         className="hover:text-sky-500"
                       >
                         <Edit className="h-5 w-5" />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => handleDeleteProduct(product.id)}
+                        variant="outline"
+                        size="icon"
                         className="hover:text-red-500"
                       >
                         <Trash2 className="h-5 w-5" />
-                      </button>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -625,6 +649,133 @@ const Page = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Dialog to show product details */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-5xl w-full p-7 space-y-8 rounded-xl shadow-lg">
+          {selectedProduct && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.2 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-10"
+            >
+              {/* Header Section */}
+              <DialogHeader className="col-span-2">
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="text-start"
+                >
+                  <DialogTitle className="text-3xl font-bold">
+                    {selectedProduct?.title}
+                  </DialogTitle>
+                  <DialogDescription className="opacity-80 text-lg">
+                    Get detailed insights about this product.
+                  </DialogDescription>
+                </motion.div>
+              </DialogHeader>
+
+              {/* Left Section: Product Info */}
+              <div className="space-y-6">
+                <motion.div whileHover={{ scale: 1.02 }}>
+                  <p className="text-lg font-semibold">Description</p>
+                  <p className="text-sm opacity-70">
+                    {selectedProduct.description}
+                  </p>
+                </motion.div>
+
+                <div className="flex justify-between">
+                  <motion.div whileHover={{ scale: 1.05 }}>
+                    <p className="text-lg font-semibold">Price</p>
+                    <p className="text-green-600 font-bold text-xl">
+                      ${selectedProduct.price.toFixed(2)}
+                    </p>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05 }}>
+                    <p className="text-lg font-semibold">Stock</p>
+                    <p className="text-md">{selectedProduct.stock}</p>
+                  </motion.div>
+                </div>
+
+                <motion.div whileHover={{ scale: 1.02 }}>
+                  <p className="text-lg font-semibold">Tag</p>
+                  <p className="text-md">{selectedProduct.tag}</p>
+                </motion.div>
+
+                <motion.div whileHover={{ scale: 1.02 }}>
+                  <p className="text-lg font-semibold">Colors</p>
+                  <div className="flex gap-3 items-center">
+                    {selectedProduct.colors.map((color, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <div
+                          className="rounded-full w-6 h-6 border shadow-md"
+                          style={{ backgroundColor: `#${color}` }}
+                        ></div>
+                        <span className="text-sm font-medium">#{color}</span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                <motion.div whileHover={{ scale: 1.02 }}>
+                  <p className="text-lg font-semibold">Sizes</p>
+                  <div className="flex gap-3 font-medium">
+                    {selectedProduct.sizes.map((size, index) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 border rounded-lg shadow-md bg-gray-100 dark:bg-zinc-900"
+                      >
+                        {size}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right Section: Images */}
+              <div className="space-y-6">
+                <motion.div
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <p className="text-lg font-semibold">Image</p>
+                  <Image
+                    src={selectedProduct.image}
+                    alt={selectedProduct.title || "Product Image"}
+                    width={500}
+                    height={500}
+                    className="w-full h-64 object-cover rounded-md border shadow-xl"
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                >
+                  <p className="text-lg font-semibold">Gallery</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {selectedProduct.gallery.map((url, index) => (
+                      <motion.div key={index} whileHover={{ scale: 1.1 }}>
+                        <Image
+                          src={url}
+                          alt={`Gallery ${index + 1}`}
+                          width={500}
+                          height={500}
+                          className="w-full h-24 object-cover rounded-md border shadow-md"
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </DialogContent>
+      </Dialog>
     </main>
   );
 };
