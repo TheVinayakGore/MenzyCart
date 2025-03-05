@@ -34,7 +34,7 @@ export const HoverEffect = ({
           key={idx}
           href={item?.link}
           target="_blank"
-          className="flex-col items-start justify-between m-auto relative group block p-3 h-full"
+          className="flex-col items-start justify-between m-auto relative group block p-3 w-full h-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
@@ -62,7 +62,7 @@ export const HoverEffect = ({
                 alt={item.title}
                 width={2000}
                 height={2000}
-                className="rounded-md border w-full h-80"
+                className="rounded-md border w-full h-full"
               />
             </div>
             <div className="flex flex-col items-start justify-between pt-3 h-full">

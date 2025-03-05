@@ -37,16 +37,17 @@ const Hero = () => {
               className="mt-6 flex gap-4 justify-center"
             >
               <Link
-                href="/shop"
+                href="/#explore"
                 className="bg-sky-500 hover:bg-white border border-white hover:border-sky-500 text-white hover:text-sky-600 px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 shadow-lg"
               >
-                Shop Now
+                Explore Products
               </Link>
               <Link
-                href="/categories"
+                href="/about"
+                target="_blank"
                 className="border border-zinc-700 dark:border-zinc-500 opacity-50 hover:opacity-100 px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 shadow-lg"
               >
-                Explore Categories
+                About Us
               </Link>
             </motion.div>
           </motion.div>

@@ -169,7 +169,7 @@ const GridItem = ({
               </div>
               <h3 className="text-2xl font-semibold">{title}</h3>
             </div>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-zinc-500 dark:text-zinc-400">
               {description}
             </p>
           </div>

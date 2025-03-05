@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { HoverEffect } from "./ui/card-hover-effect";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 // Define the API response structure
 interface ProductAPIResponse {
@@ -95,7 +96,7 @@ const ProductsList = () => {
 
   return (
     <>
-      <main className="flex flex-col items-start w-full">
+      <main id="explore" className="flex flex-col items-start w-full">
         {/* Explore Products Section */}
         <section className="flex flex-col items-start gap-5 w-full">
           {/* Heading with Motion Animation */}
@@ -132,6 +133,14 @@ const ProductsList = () => {
         <section className="w-full h-full mt-8">
           <HoverEffect items={products} />
         </section>
+
+        <Link
+          href="/category"
+          target="_blank"
+          className="p-2 px-10 text-xl bg-sky-400 hover:bg-sky-500 text-white rounded-lg"
+        >
+          Chek me
+        </Link>
       </main>
     </>
   );
