@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { CardDescription } from "@/components/ui/card";
 
 export const Products = ({
   items,
@@ -26,7 +27,7 @@ export const Products = ({
   return (
     <main
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-5 w-full h-full",
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pb-10 w-full h-full",
         className
       )}
     >
@@ -70,7 +71,16 @@ export const Products = ({
               <p className="text-xs text-green-500 font-medium uppercase tracking-wide">
                 {item.category.slice(2)}
               </p>
-              <CardTitle>{item.title}</CardTitle>
+              <CardTitle>
+                {item.title.length > 21
+                  ? item.title.slice(0, 21) + "..."
+                  : item.title}
+              </CardTitle>
+              <CardDescription className="pb-3">
+                {item.description.length > 96
+                  ? item.description.slice(0, 96) + "..."
+                  : item.description}
+              </CardDescription>
               <div className="flex items-center justify-start gap-3">
                 <b className="text-lg text-sky-500 dark:text-sky-400">
                   ₹{item.price}

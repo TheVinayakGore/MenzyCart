@@ -5,14 +5,12 @@ import { motion } from "framer-motion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { RxCross2 } from "react-icons/rx";
 import { Products } from "./Products";
 
 // Define the API response structure
@@ -175,35 +173,30 @@ const Category = () => {
 
   return (
     <>
-      <main id="explore" className="flex items-start pt-16 w-full h-full">
+      <main id="explore" className="flex items-start gap-14 py-28 w-full h-full">
         <motion.section
           initial="hidden"
           animate="visible"
           variants={sidebarVariants}
-          className="pt-5 border border-l-0 w-[25rem] h-full"
+          className="border-2 border-l-0 rounded-r-xl border-sky-400 w-[25rem] h-full"
         >
-          <div className="flex flex-col items-start gap-5 py-5 px-7 w-full">
-            <h1 className="text-xl font-semibold">Filter Your Products</h1>
-            <Button
-              variant="outline"
-              className="py-5 uppercase rounded-none w-40"
-            >
-              <span className="text-base mr-3">CLEAR ALL</span>
-              <RxCross2 />
-            </Button>
-          </div>
-
           {/* Accordion for Filters */}
           <Accordion
             type="multiple"
             defaultValue={filterOptions.map((filter) => filter.id)} // Open all accordions by default
-            className="border-t border-b-0 w-full"
+            className="w-full"
           >
-            {filterOptions.map((filter) => (
+            {filterOptions.map((filter, index) => (
               <AccordionItem
                 key={filter.id}
                 value={filter.id}
-                className="py-3 px-7 w-full"
+                className={`py-3 px-7 w-full ${
+                  index === 0
+                    ? "border-t-0"
+                    : index === filterOptions.length - 1
+                    ? "border-b-0"
+                    : "border-t"
+                }`}
               >
                 <AccordionTrigger className="text-base font-semibold uppercase no-underline hover:no-underline">
                   {filter.label}
@@ -245,9 +238,9 @@ const Category = () => {
           </Accordion>
         </motion.section>
 
-        <section className="flex flex-col items-start p-10 w-full h-full">
+        <section className="flex flex-col items-start pr-10 w-full h-full">
           {/* Explore Products Section */}
-          <div className="flex flex-col items-start gap-5 px-3 w-full">
+          <div className="flex flex-col items-start gap-5 w-full">
             {/* Heading with Motion Animation */}
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
