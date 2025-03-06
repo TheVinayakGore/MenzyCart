@@ -614,6 +614,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'api::product.product'
     > &
       Schema.Attribute.Private;
+    mrp: Schema.Attribute.BigInteger;
     price: Schema.Attribute.Float & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     rating: Schema.Attribute.Decimal;

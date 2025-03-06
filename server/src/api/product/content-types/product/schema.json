@@ -99,6 +99,10 @@
         "Ralph Lauren"
       ],
       "required": true
+    },
+    "mrp": {
+      "type": "biginteger",
+      "required": false
     }
   }
 }

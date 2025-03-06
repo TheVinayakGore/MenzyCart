@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { motion } from "framer-motion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
@@ -14,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { RxCross2 } from "react-icons/rx";
+import { Products } from "./Products";
 
 // Define the API response structure
 interface ProductAPIResponse {
@@ -26,6 +26,7 @@ interface ProductAPIResponse {
   slug: string;
   description: string;
   price: number;
+  mrp: number;
   stock: string;
   image?: {
     id: number;
@@ -54,6 +55,7 @@ const fetchProducts = async (API_URL: string) => {
       ? `${API_URL}${product.image.url}`
       : "/noimage.png",
     price: product.price?.toString() || "0",
+    mrp: product.mrp?.toString() || "0",
     tags: product.tags || "",
   }));
 };
@@ -137,10 +139,12 @@ const Category = () => {
       link: string;
       image: string;
       price: string;
+      mrp: string;
       tags: string;
     }[]
   >([]);
   const [loading, setLoading] = useState(true);
+  const [priceRange, setPriceRange] = useState([0, 100]);
 
   const API_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
@@ -179,12 +183,12 @@ const Category = () => {
           className="pt-5 border border-l-0 w-[25rem] h-full"
         >
           <div className="flex flex-col items-start gap-5 py-5 px-7 w-full">
-            <h1 className="text-xl font-semibold">Filterout Your Products</h1>
+            <h1 className="text-xl font-semibold">Filter Your Products</h1>
             <Button
               variant="outline"
               className="py-5 uppercase rounded-none w-40"
             >
-                <span className="text-base mr-3">CLEAR ALL</span>
+              <span className="text-base mr-3">CLEAR ALL</span>
               <RxCross2 />
             </Button>
           </div>
@@ -204,14 +208,24 @@ const Category = () => {
                 <AccordionTrigger className="text-base font-semibold uppercase no-underline hover:no-underline">
                   {filter.label}
                 </AccordionTrigger>
-                <AccordionContent className="">
+                <AccordionContent>
                   {filter.type === "slider" ? (
-                    <Slider
-                      defaultValue={[0, 100]}
-                      max={100}
-                      step={1}
-                      className="py-3 w-full"
-                    />
+                    <div className="space-y-3 px-1">
+                      <Slider
+                        defaultValue={priceRange}
+                        max={10000}
+                        step={1}
+                        onValueChange={(value) => {
+                          console.log("Slider value :", value);
+                          setPriceRange(value);
+                        }}
+                        className="py-3 w-full"
+                      />
+                      <div className="flex justify-between text-sm">
+                        <span>₹{priceRange[0].toLocaleString()}</span>
+                        <span>₹{priceRange[1].toLocaleString()}</span>
+                      </div>
+                    </div>
                   ) : (
                     filter.options?.map((option) => (
                       <div
@@ -233,7 +247,7 @@ const Category = () => {
 
         <section className="flex flex-col items-start p-10 w-full h-full">
           {/* Explore Products Section */}
-          <div className="flex flex-col items-start gap-5 px-5 w-full">
+          <div className="flex flex-col items-start gap-5 px-3 w-full">
             {/* Heading with Motion Animation */}
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
@@ -266,10 +280,7 @@ const Category = () => {
 
           {/* Products Section */}
           <div className="w-full h-full mt-8">
-            <HoverEffect items={products} />
-            <HoverEffect items={products} />
-            <HoverEffect items={products} />
-            <HoverEffect items={products} />
+            <Products items={products} />
           </div>
         </section>
       </main>

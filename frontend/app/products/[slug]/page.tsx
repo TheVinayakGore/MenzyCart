@@ -503,8 +503,8 @@ export default function ProductPage() {
                 <div className="flex items-center w-40">
                   <div className="relative w-full">
                     <Select>
-                      <SelectTrigger className="border dark:border-zinc-700 w-full">
-                        <SelectValue placeholder="M" />
+                      <SelectTrigger className="border dark:border-zinc-700 w-40">
+                        <SelectValue placeholder="Select The Size" />
                       </SelectTrigger>
                       <SelectContent>
                         {product.sizes.map((size, index) => (

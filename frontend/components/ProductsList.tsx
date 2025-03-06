@@ -16,6 +16,7 @@ interface ProductAPIResponse {
   slug: string;
   description: string;
   price: number;
+  mrp: number;
   stock: string;
   image?: {
     id: number;
@@ -44,6 +45,7 @@ const fetchProducts = async (API_URL: string) => {
       ? `${API_URL}${product.image.url}`
       : "/noimage.png",
     price: product.price?.toString() || "0",
+    mrp: product.mrp?.toString() || "0",
     tags: product.tags || "",
   }));
 };
@@ -62,6 +64,7 @@ const ProductsList = () => {
       link: string;
       image: string;
       price: string;
+      mrp: string;
       tags: string;
     }[]
   >([]);
@@ -91,6 +94,30 @@ const ProductsList = () => {
       isMounted = false;
     };
   }, [API_URL]);
+
+  // Filter products to show only one product per category
+  const getUniqueCategoryProducts = (
+    products: {
+      title: string;
+      category: string;
+      description: string;
+      link: string;
+      image: string;
+      price: string;
+      mrp: string;
+      tags: string;
+    }[]
+  ) => {
+    const categoryMap = new Map();
+    products.forEach((product) => {
+      if (!categoryMap.has(product.category)) {
+        categoryMap.set(product.category, product);
+      }
+    });
+    return Array.from(categoryMap.values());
+  };
+
+  const uniqueCategoryProducts = getUniqueCategoryProducts(products);
 
   if (loading) return <Loading />;
 
@@ -131,7 +158,7 @@ const ProductsList = () => {
 
         {/* Products Section */}
         <section className="w-full h-full mt-8">
-          <HoverEffect items={products} />
+          <HoverEffect items={uniqueCategoryProducts} />
         </section>
 
         <Link
@@ -139,7 +166,7 @@ const ProductsList = () => {
           target="_blank"
           className="p-2 px-10 text-xl bg-sky-400 hover:bg-sky-500 text-white rounded-lg"
         >
-          Chek me
+          Check me
         </Link>
       </main>
     </>

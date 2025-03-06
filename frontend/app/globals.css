@@ -78,13 +78,17 @@
   }
 }
 
+/* Custom Slider Thumb */
+.slider-thumb {
+  background-color: #4f46e5; /* Indigo color */
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
 
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+/* Custom Slider Track */
+.slider-track {
+  background-color: #e2e8f0; /* Light gray */
+  height: 4px;
 }
