@@ -4,7 +4,8 @@
   "info": {
     "singularName": "category",
     "pluralName": "categories",
-    "displayName": "Category"
+    "displayName": "Category",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -20,6 +21,15 @@
       "type": "component",
       "repeatable": true,
       "component": "shared.items",
+      "required": true
+    },
+    "cover": {
+      "allowedTypes": [
+        "images",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": false,
       "required": true
     }
   }

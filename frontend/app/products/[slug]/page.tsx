@@ -10,13 +10,6 @@ import { PiHeartFill } from "react-icons/pi";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -351,97 +344,125 @@ export default function ProductPage() {
                     </Button>
                   </motion.div>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl">
+                <DialogContent className="max-w-3xl p-10 border border-sky-500">
                   <DialogHeader>
                     <DialogTitle className="text-3xl font-semibold">
                       Product Preview
                     </DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
-                    <div className="flex items-start justify-start gap-5 m-auto w-full">
+                    <div className="flex items-start justify-start gap-7 m-auto w-full h-80">
                       <Image
                         src={selectedImage}
                         alt={product.title}
                         width={200}
                         height={200}
-                        className="rounded-md border w-1/2"
+                        className="rounded-md border border-sky-500 w-1/2 h-full"
                       />
-                      <div className="flex flex-col items-start -mt-2 w-1/2">
-                        <h1 className="text-3xl title-font font-semibold">
-                          {product.title}
-                        </h1>
-                        <div className="flex items-center justify-start gap-2 -ml-1 text-sm uppercase w-full h-5 mb-1">
-                          <p className="text-sky-400">
-                            {product.category?.name.slice(2)}
+                      <div className="flex flex-col items-start justify-between w-1/2 h-full">
+                        <div className="flex flex-col w-full">
+                          <h1 className="text-3xl title-font font-semibold leading-none">
+                            {product.title.length > 17
+                              ? product.title.slice(0, 17) + "..."
+                              : product.title}
+                          </h1>
+                          <div className="flex items-center justify-start gap-2 text-sm uppercase w-full h-5 my-1">
+                            <p className="text-sky-400">
+                              {product.category?.name.slice(2)}
+                            </p>
+                            <span className="mb-1 opacity-30">|</span>
+                            <p className="opacity-40">{product.brand}</p>
+                          </div>
+                          <div className="flex">
+                            <div className="flex items-center">
+                              {[...Array(product.rating)].map((_, index) => (
+                                <FaStar
+                                  key={index}
+                                  className="text-yellow-400 text-base"
+                                />
+                              ))}
+                              {[...Array(5 - product.rating)].map(
+                                (_, index) => (
+                                  <FaRegStar
+                                    key={index}
+                                    className="text-yellow-400 text-base"
+                                  />
+                                )
+                              )}
+                              <motion.span className="text-base opacity-60 ml-3">
+                                {product.reviews >= 1000
+                                  ? `${(product.reviews / 1000).toFixed(2)}K`
+                                  : product.reviews}{" "}
+                                Reviews
+                              </motion.span>
+                            </div>
+                          </div>
+                          <p className="leading-relaxed text-base opacity-80 my-2">
+                            {product.description.slice(0, 190)}...
                           </p>
-                          <span className="mb-1 opacity-30">|</span>
-                          <p className="opacity-40">{product.brand}</p>
                         </div>
-                        <div className="flex">
-                          <div className="flex items-center">
-                            {[...Array(product.rating)].map((_, index) => (
-                              <FaStar
-                                key={index}
-                                className="text-yellow-400 text-base"
-                              />
-                            ))}
-                            {[...Array(5 - product.rating)].map((_, index) => (
-                              <FaRegStar
-                                key={index}
-                                className="text-yellow-400 text-base"
-                              />
-                            ))}
-                            <motion.span className="text-base opacity-60 ml-3">
-                              {product.reviews >= 1000
-                                ? `${(product.reviews / 1000).toFixed(2)}K`
-                                : product.reviews}{" "}
-                              Reviews
-                            </motion.span>
+                        <div className="flex items-center justify-between text-xl font-medium p-3 border border-sky-500 rounded-md w-full">
+                          <div className="flex items-center gap-2">
+                            <span className="text-2xl">₹</span>
+                            <span className="text-sky-400">
+                              {product.price.toFixed(2)}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-start gap-3">
+                            <Button
+                              size="icon"
+                              className="text-lg font-bold bg-sky-400 hover:bg-sky-500 text-white hover:text-white"
+                            >
+                              -
+                            </Button>
+                            <span className="">1</span>
+                            <Button
+                              size="icon"
+                              className="text-lg font-bold bg-sky-400 hover:bg-sky-500 text-white hover:text-white"
+                            >
+                              +
+                            </Button>
                           </div>
                         </div>
-                        <p className="leading-relaxed text-base opacity-80 my-2">
-                          {product.description.slice(0, 190)}...
-                        </p>
-                        <p className="text-2xl text-sky-400 font-bold">
-                          ₹{product.price.toFixed(2)}
-                        </p>
                       </div>
                     </div>
-                    <p className="opacity-50">
+                    <p className="opacity-70">
                       Complete your purchase by providing your details below.
                     </p>
-                    <input
-                      type="text"
-                      name="fullName"
-                      placeholder="Full Name"
-                      value={formData.fullName}
-                      onChange={handleFormChange}
-                      required
-                      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      value={formData.email}
-                      onChange={handleFormChange}
-                      required
-                      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
-                    />
-                    <input
+                    <div className="flex items-center gap-5 w-full">
+                      <Input
+                        type="text"
+                        name="fullName"
+                        placeholder="Full Name"
+                        value={formData.fullName}
+                        onChange={handleFormChange}
+                        required
+                        className="w-full py-5 text-base font-medium border-sky-500"
+                      />
+                      <Input
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        value={formData.email}
+                        onChange={handleFormChange}
+                        required
+                        className="w-full py-5 text-base font-medium border-sky-500"
+                      />
+                    </div>
+                    <Input
                       type="text"
                       name="address"
                       placeholder="Shipping Address"
                       value={formData.address}
                       onChange={handleFormChange}
                       required
-                      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      className="w-full py-5 text-base font-medium border-sky-500"
                     />
                     <DialogClose asChild>
                       <Button
                         onClick={handlePayment}
                         type="button"
-                        className="text-base py-5 font-medium w-full bg-sky-400 hover:bg-sky-500"
+                        className="text-base py-6 font-medium w-full text-white bg-sky-400 hover:bg-sky-500"
                       >
                         Proceed to Payment
                       </Button>
@@ -497,37 +518,31 @@ export default function ProductPage() {
             </div>
 
             {/* Color and Size Selectors */}
-            <div className="flex my-6 items-center gap-10 w-full">
-              {/* Size Selector */}
+            <div className="flex my-6 items-center w-full">
               {product.sizes && product.sizes.length > 0 && (
-                <div className="flex items-center w-40">
-                  <div className="relative w-full">
-                    <Select>
-                      <SelectTrigger className="border dark:border-zinc-700 w-40">
-                        <SelectValue placeholder="Select The Size" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {product.sizes.map((size, index) => (
-                          <SelectItem key={index} value={size}>
-                            {size.toUpperCase()}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                <div className="flex items-center gap-3 p-1 overflow-auto w-full">
+                  {product.sizes.map((size, index) => (
+                    <Button
+                      key={index}
+                      value={size}
+                      variant="outline"
+                      className="text-base font-normal focus:border-2 focus:border-sky-500 dark:focus:border-sky-500 border-zinc-300 dark:border-zinc-600 w-14 h-14 hover:scale-110 transition duration-300"
+                    >
+                      {size.toUpperCase()}
+                    </Button>
+                  ))}
                 </div>
               )}
 
               {/* Color Selector */}
               {product.colors && product.colors.length > 0 && (
-                <div className="flex items-center gap-1 w-full h-10">
-                  <span className="mr-1">Colors :</span>
+                <div className="flex items-center gap-2 pr-2">
                   <motion.button
                     aria-label={`Color option None`}
                     onClick={() => setSelectedColor("")}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="relative bg-transparent border border-zinc-500 dark:border-white mt-1 rounded-full shadow-lg w-5 h-5"
+                    className="relative bg-transparent border border-zinc-300 dark:border-zinc-600 rounded-full w-10 h-10"
                   >
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-full h-px bg-red-500 transform rotate-45" />
@@ -540,8 +555,8 @@ export default function ProductPage() {
                       onClick={() => setSelectedColor(color)}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className={`border border-zinc-500 dark:border-white mt-1 rounded-full shadow-lg ${
-                        selectedColor === color ? "w-6 h-6" : "w-5 h-5"
+                      className={`border border-zinc-300 dark:border-zinc-600 rounded-full ${
+                        selectedColor === color ? "w-12 h-12" : "w-10 h-10"
                       }`}
                       style={{ backgroundColor: color }}
                     />

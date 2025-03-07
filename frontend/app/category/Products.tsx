@@ -58,29 +58,31 @@ export const Products = ({
             )}
           </AnimatePresence>
           <Card className="flex flex-col items-start justify-between border-sky-300 dark:border-sky-700 relative rounded-lg w-full h-full">
-            <div className="w-full h-full">
-              <Image
-                src={item.image}
-                alt={item.title}
-                width={2000}
-                height={2000}
-                className="rounded-md border w-full h-full"
-              />
-            </div>
             <div className="flex flex-col items-start gap-1 pt-3 h-full">
-              <p className="text-xs text-green-500 font-medium uppercase tracking-wide">
-                {item.category.slice(2)}
-              </p>
-              <CardTitle>
-                {item.title.length > 21
-                  ? item.title.slice(0, 21) + "..."
-                  : item.title}
-              </CardTitle>
-              <CardDescription className="pb-3">
-                {item.description.length > 96
-                  ? item.description.slice(0, 96) + "..."
-                  : item.description}
-              </CardDescription>
+              <div className="w-full h-full">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  width={2000}
+                  height={2000}
+                  className="rounded-md border w-full h-full"
+                />
+              </div>
+              <div className="flex flex-col items-start gap-1 pt-3 h-full">
+                <p className="text-xs text-green-500 font-medium uppercase tracking-wide">
+                  {item.category.slice(2)}
+                </p>
+                <CardTitle>
+                  {item.title.length > 21
+                    ? item.title.slice(0, 21) + "..."
+                    : item.title}
+                </CardTitle>
+                <CardDescription className="pb-3 h-24">
+                  {item.description.length > 96
+                    ? item.description.slice(0, 96) + "..."
+                    : item.description}
+                </CardDescription>
+              </div>
               <div className="flex items-center justify-start gap-3">
                 <b className="text-lg text-sky-500 dark:text-sky-400">
                   ₹{item.price}
