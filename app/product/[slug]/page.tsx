@@ -238,18 +238,18 @@ const ProductDetails = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col items-start py-32 px-16 w-full h-full"
+        className="flex flex-col items-start py-32 px-7 lg:px-16 w-full h-full"
       >
-        <div className="flex items-start justify-start w-full h-full">
+        <div className="flex flex-col md:flex-row items-start justify-start w-full h-full">
           {/* Image Section */}
           <motion.section
             initial={{ opacity: 0, y: -300 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
             id="ID1"
-            className="sticky top-0 flex flex-col items-start justify-start gap-3 w-[40%] h-full"
+            className="lg:sticky top-0 flex flex-col items-start justify-start gap-3 w-full lg:w-[50%] xl:w-[40%] h-full"
           >
-            <div className="flex items-start justify-start gap-2 border dark:border-zinc-700 rounded-md p-2 w-full h-[36rem]">
+            <div className="flex items-start justify-start gap-2 border dark:border-zinc-700 rounded-md p-2 w-full h-auto">
               <div className="flex items-start w-full h-full">
                 <div className="flex relative w-full h-full">
                   <Image
@@ -270,7 +270,7 @@ const ProductDetails = () => {
                         product.tag === "Best Seller"
                           ? "bg-sky-500"
                           : "bg-teal-500"
-                      } text-lg text-white p-2 px-7 rounded-tl-md rounded-br-xl`}
+                      } text-sm lg:text-lg text-white p-1 lg:p-2 px-4 lg:px-7 rounded-tl-md rounded-br-xl`}
                     >
                       {product.tag}
                     </div>
@@ -320,7 +320,7 @@ const ProductDetails = () => {
                     <Button
                       variant="outline"
                       onClick={handleAddToCart}
-                      className="text-lg border dark:border-zinc-700 hover:bg-sky-500 hover:text-white h-14 w-full"
+                      className="text-base lg:text-lg border dark:border-zinc-700 hover:bg-sky-500 hover:text-white h-12 lg:h-14 w-full"
                     >
                       Add to Cart
                     </Button>
@@ -331,7 +331,7 @@ const ProductDetails = () => {
               <Dialog>
                 <DialogTrigger asChild>
                   <motion.div whileHover={{ scale: 1.05 }} className="w-full">
-                    <Button className="text-lg font-medium hover:bg-yellow-500 h-14 w-full">
+                    <Button className="text-base lg:text-lg font-medium hover:bg-yellow-500 h-12 lg:h-14 w-full">
                       Buy Now
                     </Button>
                   </motion.div>
@@ -521,17 +521,21 @@ const ProductDetails = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
             id="ID2"
-            className="sticky top-20 overflow-auto pl-10 w-[60%] h-full"
+            className="lg:sticky top-20 overflow-auto py-10 md:p-0 md:pl-10 w-full lg:w-[50%] xl:w-[60%] h-auto"
           >
             {/* Product Title, Rating, Reviews, Description */}
             <div>
-              <h1 className="text-4xl title-font font-semibold mb-2">
+              <h1 className="text-2xl lg:text-4xl title-font font-semibold mb-2">
                 {product.title}
               </h1>
               <div className="flex items-center justify-start gap-2 pb-1 text-base font-normal uppercase w-full">
-                <p className="text-sky-500 font-medium">{product.category}</p>
+                <p className="text-sm md:text-base text-sky-500 font-medium">
+                  {product.category}
+                </p>
                 <span className="mb-1 opacity-50">|</span>
-                <p className="uppercase opacity-60">{product.brand}</p>
+                <p className="uppercase text-sm md:text-base opacity-60">
+                  {product.brand}
+                </p>
               </div>
               <div className="flex mb-3">
                 <div className="flex items-center">
@@ -541,10 +545,10 @@ const ProductDetails = () => {
                   {[...Array(5 - product.rating)].map((_, index) => (
                     <FaRegStar
                       key={index}
-                      className="text-yellow-400 text-lg"
+                      className="text-yellow-400 text-sm md:text-lg"
                     />
                   ))}
-                  <motion.span className="text-lg opacity-60 ml-3">
+                  <motion.span className="text-sm md:text-lg opacity-60 ml-3">
                     {product.review >= 1000
                       ? `${(product.review / 1000).toFixed(2)}K`
                       : product.review}{" "}
@@ -552,7 +556,7 @@ const ProductDetails = () => {
                   </motion.span>
                 </div>
               </div>
-              <p className="leading-relaxed opacity-80">
+              <p className="text-sm lg:text-base leading-relaxed opacity-80">
                 {product.description}
               </p>
             </div>
@@ -567,7 +571,7 @@ const ProductDetails = () => {
                       value={item}
                       variant="outline"
                       onClick={() => setSelectedSize(item)} // Add this line
-                      className={`text-base font-normal border-zinc-300 dark:border-zinc-600 hover:border-2 hover:border-sky-400 dark:hover:border-sky-500 w-14 h-14 hover:scale-75 transition duration-300 ${
+                      className={`text-sm lg:text-base font-normal border-zinc-300 dark:border-zinc-600 hover:border-2 hover:border-sky-400 dark:hover:border-sky-500 w-10 lg:w-14 h-10 lg:h-14 hover:scale-75 transition duration-300 ${
                         selectedSize === item
                           ? "border-2 border-sky-500 dark:border-sky-500"
                           : ""
@@ -587,7 +591,7 @@ const ProductDetails = () => {
                     onClick={() => setSelectedColor("")}
                     whileHover={{ scale: 0.75 }}
                     whileTap={{ scale: 0.9 }}
-                    className="relative bg-transparent border border-zinc-300 dark:border-zinc-600 rounded-full w-10 h-10"
+                    className="relative bg-transparent border border-zinc-300 dark:border-zinc-600 rounded-full w-6 lg:w-10 h-6 lg:h-10"
                   >
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-full h-px bg-red-500 transform rotate-45" />
@@ -600,7 +604,7 @@ const ProductDetails = () => {
                       onClick={() => setSelectedColor(item)}
                       whileHover={{ scale: 0.75 }}
                       whileTap={{ scale: 0.9 }}
-                      className={`rounded-full w-10 h-10 ${
+                      className={`rounded-full w-6 lg:w-10 h-6 lg:h-10 ${
                         selectedColor === item
                           ? "border-2 border-sky-400"
                           : "border border-zinc-300 dark:border-zinc-600 hover:border-2 hover:border-sky-400 dark:hover:border-sky-500"
@@ -613,7 +617,7 @@ const ProductDetails = () => {
             </div>
 
             {/* Price and Pincode Checker */}
-            <div className="flex items-center justify-between border-t border-b dark:border-zinc-700 mt-5 w-full h-20">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 border-t border-b dark:border-zinc-700 mt-5 w-full py-5">
               <motion.p className="text-3xl text-sky-400 font-bold w-1/2">
                 {animatedPrice}
               </motion.p>
@@ -662,7 +666,7 @@ const ProductDetails = () => {
               </div>
             </div>
             <div className="pt-5">
-              <p>
+              <p className="text-sm lg:text-base">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fuga,
                 earum. Eveniet quis, reprehenderit alias impedit laudantium vel
                 rem fugit labore iste fuga unde saepe animi exercitationem

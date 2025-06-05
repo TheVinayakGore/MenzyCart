@@ -7,7 +7,7 @@ import ReduxProvider from "@/components/ReduxProvider";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-// import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,27 +29,27 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      {/* <ClerkProvider>
-      </ClerkProvider> */}
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} text-zinc-800 dark:text-zinc-200 antialiased`}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
+      <ClerkProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} text-zinc-800 dark:text-zinc-200 antialiased`}
           >
-            <Toaster />
-            <ReduxProvider>
-              <Navbar />
-              {children}
-              <Footer />
-            </ReduxProvider>
-          </ThemeProvider>
-        </body>
-      </html>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Toaster />
+              <ReduxProvider>
+                <Navbar />
+                {children}
+                <Footer />
+              </ReduxProvider>
+            </ThemeProvider>
+          </body>
+        </html>
+      </ClerkProvider>
     </>
   );
 }

@@ -44,7 +44,7 @@ const ProductsList = () => {
         <h2 className="font-semibold text-center mb-10 text-2xl sm:text-3xl lg:text-4xl">
           ✦ Latest Products
         </h2>
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
           {products.map((product) => (
             <ProductCard
               key={product._id}
