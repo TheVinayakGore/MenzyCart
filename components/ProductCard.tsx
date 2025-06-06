@@ -33,12 +33,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
       className="group relative bg-white dark:bg-zinc-800 border hover:border-sky-400 rounded-lg overflow-hidden shadow-xl hover:shadow-sky-200 dark:hover:shadow-sky-800 transition-shadow h-full flex flex-col"
     >
       {/* Responsive Image */}
-      <div className="w-full aspect-[4/3] sm:aspect-[3/2] md:aspect-[5/3] relative border-b">
+      <div className="w-full h-60 sm:h-80 md:h-80 relative border-b">
         <Image
           src={image}
           alt={name}
           fill
-          sizes="(max-width: 1000px) 100vw, 33vw"
           className="w-full h-full transition-transform duration-300 group-hover:scale-105"
         />
       </div>
@@ -55,14 +54,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
       )}
 
       {/* Card Content */}
-      <div className="p-3 sm:p-4 flex flex-col gap-2">
-        <span className="text-xs sm:text-sm uppercase opacity-50">{brand}</span>
-        <h3 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight">
-          {name}
-        </h3>
-        <p className="text-sm sm:text-base opacity-60 mt-2 line-clamp-3">
-          {description}
-        </p>
+      <div className="p-3 sm:p-4 flex flex-col items-start justify-between">
+        <div className="flex flex-col items-start">
+          <span className="text-xs sm:text-sm uppercase opacity-50">{brand}</span>
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight">
+            {name}
+          </h3>
+          <p className="text-sm sm:text-base opacity-60 mt-2 line-clamp-3">
+            {description}
+          </p>
+        </div>
 
         {/* Pricing */}
         <div className="flex flex-wrap items-center gap-3 mt-4">

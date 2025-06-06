@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Phone, Mail, MapPin } from "lucide-react";
 
-const page = () => {
+const HelpCenterPage = () => {
   const faqs = [
     {
       question: "How do I place an order?",
@@ -54,20 +54,19 @@ const page = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="p-28 text-lg"
+      className="px-6 sm:px-10 py-20 space-y-10"
     >
-      <h1 className="inline-flex text-9xl font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-fuchsia-500 mb-14 h-full">
+      <h1 className="inline-flex text-6xl sm:text-8xl lg:text-9xl font-medium bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-fuchsia-500 h-full">
         Help Center
       </h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* FAQ Section */}
-        <Card className="shadow-xl">
+        <Card className="shadow-lg">
           <CardHeader className="border-b pb-5 mb-5">
-            <CardTitle className="text-2xl">
+            <CardTitle className="text-xl sm:text-2xl">
               Frequently Asked Questions
             </CardTitle>
-            <CardDescription className="text-base">
+            <CardDescription className="text-sm sm:text-base">
               Find answers to common questions about our services and policies.
             </CardDescription>
           </CardHeader>
@@ -87,62 +86,37 @@ const page = () => {
         </Card>
 
         {/* Contact Form */}
-        <Card className="shadow-xl">
+        <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl">Contact Us</CardTitle>
-            <CardDescription className="text-base">
+            <CardTitle className="text-xl sm:text-2xl">Contact Us</CardTitle>
+            <CardDescription className="text-sm sm:text-base">
               Have a question? Send us a message, and we will get back to you as
               soon as possible.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-base">
-                  Name
-                </Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Your name"
-                  className="text-sm"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-base">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Your email"
-                  className="text-sm"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="text-base">
-                  Phone Number
-                </Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="Your phone number"
-                  className="text-sm"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="subject" className="text-base">
-                  Subject
-                </Label>
-                <Input
-                  id="subject"
-                  type="text"
-                  placeholder="Subject of your message"
-                  className="text-sm"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message" className="text-base">
+              {["name", "email", "phone", "subject"].map((field) => (
+                <div className="space-y-1" key={field}>
+                  <Label htmlFor={field} className="text-sm capitalize">
+                    {field}
+                  </Label>
+                  <Input
+                    id={field}
+                    type={
+                      field === "email"
+                        ? "email"
+                        : field === "phone"
+                          ? "tel"
+                          : "text"
+                    }
+                    placeholder={`Your ${field}`}
+                    className="text-sm"
+                  />
+                </div>
+              ))}
+              <div className="space-y-1">
+                <Label htmlFor="message" className="text-sm">
                   Message
                 </Label>
                 <Textarea
@@ -152,7 +126,7 @@ const page = () => {
                   className="text-sm"
                 />
               </div>
-              <Button type="submit" className="w-full text-lg">
+              <Button type="submit" className="w-full text-base">
                 Send Message
               </Button>
             </form>
@@ -160,35 +134,40 @@ const page = () => {
         </Card>
       </div>
 
-      {/* Additional Information Section */}
-      <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <Alert className="shadow-xl">
-          <Phone className="h-6 w-6" />
-          <div className="flex flex-col ml-3">
-            <AlertTitle className="text-xl">Call Us</AlertTitle>
-            <AlertDescription className="text-lg">
+      {/* Additional Info Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Alert className="flex items-start space-x-3 p-5 shadow-md">
+          <Phone className="h-6 w-6 mt-1 text-sky-500" />
+          <div>
+            <AlertTitle className="text-base font-semibold">Call Us</AlertTitle>
+            <AlertDescription className="text-sm">
               For immediate assistance, call us at{" "}
-              <span className="font-semibold">+1 (800) 123-4567</span>.
+              <span className="font-medium">+1 (800) 123-4567</span>.
             </AlertDescription>
           </div>
         </Alert>
-        <Alert className="shadow-xl">
-          <Mail className="h-6 w-6" />
-          <div className="flex flex-col ml-3">
-            <AlertTitle className="text-xl">Email Us</AlertTitle>
-            <AlertDescription className="text-lg">
+
+        <Alert className="flex items-start space-x-3 p-5 shadow-md">
+          <Mail className="h-6 w-6 mt-1 text-fuchsia-500" />
+          <div>
+            <AlertTitle className="text-base font-semibold">
+              Email Us
+            </AlertTitle>
+            <AlertDescription className="text-sm">
               Send us an email at{" "}
-              <span className="font-semibold">support@example.com</span>.
+              <span className="font-medium">support@example.com</span>.
             </AlertDescription>
           </div>
         </Alert>
-        <Alert className="shadow-xl">
-          <MapPin className="h-6 w-6" />
-          <div className="flex flex-col ml-3">
-            <AlertTitle className="text-xl">Visit Us</AlertTitle>
-            <AlertDescription className="text-lg">
-              Our office is located at{" "}
-              <span className="font-semibold">123 Main St, City, Country</span>.
+
+        <Alert className="flex items-start space-x-3 p-5 shadow-md">
+          <MapPin className="h-6 w-6 mt-1 text-emerald-500" />
+          <div>
+            <AlertTitle className="text-base font-semibold">
+              Our Location
+            </AlertTitle>
+            <AlertDescription className="text-sm">
+              123 Main Street, Suite 100, San Francisco, CA 94110
             </AlertDescription>
           </div>
         </Alert>
@@ -197,4 +176,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default HelpCenterPage;

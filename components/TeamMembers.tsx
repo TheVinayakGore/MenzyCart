@@ -38,63 +38,38 @@ const teamMembers = [
 
 export const TeamMembers = () => {
   return (
-    <>
-      <motion.main
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="flex items-center justify-between m-auto w-full h-full"
-      >
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center m-auto gap-20 w-full h-full"
-        >
-          {teamMembers.map((member, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              whileHover={{ scale: 1.2, rotate: -360 }}
-              className="relative flex flex-col items-center text-center w-full h-48"
-            >
-              <motion.div
-                className="w-40 h-40 group rounded-full overflow-hidden border border-sky-400 shadow-lg relative"
-                whileHover={{
-                  rotate: 360,
-                  scale: 1.2,
-                  boxShadow: "0px 10px 30px rgba(0,0,0,0.2)",
-                }}
-                transition={{ duration: 1, ease: "easeInOut" }}
-              >
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  width={500}
-                  height={500}
-                  className="w-full h-full"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ scale: 0.6, y: 10 }}
-                whileHover={{ scale: 1.1, y: -20 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="absolute bottom-0 bg-white dark:bg-zinc-900 border border-sky-500 p-3 rounded-xl shadow-lg text-center group-hover:-translate-y-10 w-44"
-              >
-                <h3 className="text-lg font-bold">{member.name}</h3>
-                <p className="text-zinc-600 dark:text-zinc-400 text-sm">
-                  {member.role}
-                </p>
-              </motion.div>
-            </motion.div>
-          ))}
-        </motion.section>
-        <h1 className="text-9xl text-center font-semibold bg-clip-text text-transparent bg-gradient-to-br from-sky-400 to-fuchsia-500 w-full h-full">
-          Meet Our <br /> Team
-        </h1>
-      </motion.main>
-    </>
+    <section className="w-full py-16">
+      <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl pb-5 font-semibold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-tr from-sky-400 to-fuchsia-500">
+        Meet the Team
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+        {teamMembers.map((member, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center text-center bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md border border-sky-300 dark:border-sky-700"
+          >
+            <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden mb-4">
+              <Image
+                src={member.image}
+                alt={member.name}
+                width={144}
+                height={144}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h3 className="text-lg sm:text-xl font-bold text-sky-500 dark:text-sky-400">
+              {member.name}
+            </h3>
+            <p className="text-sm sm:text-base text-muted-foreground mt-1">
+              {member.role}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
   );
 };

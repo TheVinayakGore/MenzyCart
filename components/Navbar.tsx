@@ -17,7 +17,6 @@ import { PiArrowUpRightBold } from "react-icons/pi";
 import { Card, CardContent } from "@/components/ui/card";
 import { BsInfoSquare } from "react-icons/bs";
 import { TfiHelpAlt } from "react-icons/tfi";
-import { SiDatabricks } from "react-icons/si";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -64,14 +63,11 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center justify-center gap-6 flex-1 mx-8">
           {/* Links */}
           <div className="flex gap-4">
-            <Link href="/about" target="_blank" className={navLinkClass}>
+            <Link href="/about" className={navLinkClass}>
               About Us <PiArrowUpRightBold className="w-3 h-3" />
             </Link>
-            <Link href="/help" target="_blank" className={navLinkClass}>
+            <Link href="/help" className={navLinkClass}>
               Help <PiArrowUpRightBold className="w-3 h-3" />
-            </Link>
-            <Link href="/adminPanel" target="_blank" className={navLinkClass}>
-              Admin Panel <PiArrowUpRightBold className="w-3 h-3" />
             </Link>
           </div>
 
@@ -190,13 +186,6 @@ const Navbar = () => {
                 >
                   <TfiHelpAlt className="h-6 w-6" />
                   <span>Help</span>
-                </Link>
-                <Link
-                  href="/adminPanel"
-                  className="flex items-center gap-3 w-full text-base font-medium p-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white/30 dark:bg-zinc-900/30 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-                >
-                  <SiDatabricks className="h-6 w-6" />
-                  <span>Admin Panel</span>
                 </Link>
 
                 {/* Theme Switch */}

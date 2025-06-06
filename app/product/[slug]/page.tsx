@@ -304,7 +304,7 @@ const ProductDetails = () => {
                             width={1000}
                             height={1000}
                             priority
-                            className="rounded-sm h-20 w-20"
+                            className="rounded-sm h-auto w-20"
                           />
                         </button>
                       </li>

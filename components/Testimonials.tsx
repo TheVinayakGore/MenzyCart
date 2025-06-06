@@ -6,19 +6,31 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 const testimonials = [
   {
     name: "John Doe",
-    avatar: "/mem2.jpeg",
+    avatar: "/mem1.jpeg",
     comment:
       "Mega Mall has the best deals! I always find what I need at great prices.",
   },
   {
     name: "Jane Smith",
-    avatar: "/mem3.jpeg",
+    avatar: "/mem2.jpeg",
     comment: "The customer service is amazing, and the delivery is super fast!",
   },
   {
     name: "Alice Johnson",
-    avatar: "/mem5.jpeg",
+    avatar: "/mem3.jpeg",
     comment: "I love the variety of products available. Highly recommended!",
+  },
+  {
+    name: "Michael Lee",
+    avatar: "/mem4.jpeg",
+    comment:
+      "Impressed with the quality and quick response from support. Great experience!",
+  },
+  {
+    name: "Priya Patel",
+    avatar: "/mem5.jpeg",
+    comment:
+      "Shopping at Mega Mall is always a joy — smooth interface and amazing discounts!",
   },
 ];
 
@@ -26,9 +38,9 @@ const Testimonials = () => {
   return (
     <>
       <main className="w-full">
-        <h2 className="text-3xl font-bold text-center mb-8">
+        <h1 className="text-center pb-10 text-4xl sm:text-7xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-fuchsia-500 h-full">
           What Our Customers Say
-        </h2>
+        </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow">
