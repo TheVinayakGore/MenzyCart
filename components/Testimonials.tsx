@@ -38,13 +38,13 @@ const Testimonials = () => {
   return (
     <>
       <main className="w-full">
-        <h1 className="text-center pb-10 text-4xl sm:text-7xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-fuchsia-500 h-full">
+        <h1 className="text-center pb-14 text-4xl sm:text-7xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-fuchsia-500 h-full">
           What Our Customers Say
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {testimonials.map((testimonial, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
+              <CardHeader className="p-4 md:p-5 md:pb-0">
                 <div className="flex items-center gap-4">
                   <Avatar>
                     <AvatarImage src={testimonial.avatar} />
@@ -53,8 +53,8 @@ const Testimonials = () => {
                   <CardTitle>{testimonial.name}</CardTitle>
                 </div>
               </CardHeader>
-              <CardContent>
-                <p className="text-zinc-600 dark:text-zinc-400">
+              <CardContent className="p-4 pt-0 md:p-5">
+                <p className="text-sm md:text-base text-zinc-600 dark:text-zinc-400">
                   {testimonial.comment}
                 </p>
               </CardContent>

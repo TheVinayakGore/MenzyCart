@@ -66,9 +66,11 @@ const FAQ = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full"
+      className="w-full mx-auto max-w-5xl"
     >
-      <h1 className="text-4xl font-bold mb-20"><span className="text-5xl">✦</span> Frequently Asked Questions</h1>
+      <h1 className="text-center pb-14 text-4xl sm:text-7xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-fuchsia-500 h-full">
+        Frequently Asked Questions
+      </h1>
       <Accordion
         type="single"
         collapsible
@@ -83,10 +85,10 @@ const FAQ = () => {
             className="border-b last:border-b-0"
           >
             <AccordionItem value={`item-${index}`}>
-              <AccordionTrigger className="text-2xl font-medium hover:bg-gray-50 dark:hover:bg-zinc-800 p-7 w-full text-left flex items-center justify-between hover:no-underline hover:text-sky-500">
+              <AccordionTrigger className="text-base sm:text-lg md:text-2xl font-medium hover:bg-gray-50 dark:hover:bg-zinc-800 p-4 md:p-7 w-full text-left flex items-center justify-between hover:no-underline hover:text-sky-500">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-xl p-7 bg-sky-200 dark:bg-sky-900">
+              <AccordionContent className="text-sm sm:text-base md:text-xl p-4 md:p-7 bg-sky-200 dark:bg-sky-900">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

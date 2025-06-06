@@ -62,11 +62,11 @@ export default function Hero() {
         </h1>
         <div className="flex flex-col items-center gap-5 mt-5">
           <Link href="/#products">
-            <Button className="flex items-center gap-2 text-xl bg-gradient-to-r from-sky-500 via-purple-500 to-pink-500 hover:from-sky-600 hover:via-purple-600 hover:to-pink-600 text-white px-14 py-7 border-2 border-sky-400 rounded-full shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
+            <Button className="flex items-center gap-2 text-base lg:text-xl bg-gradient-to-r from-sky-500 via-purple-500 to-pink-500 hover:from-sky-600 hover:via-purple-600 hover:to-pink-600 text-white px-7 lg:px-12 py-5 lg:py-7 border-2 border-sky-400 rounded-full shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
               Start Shopping
             </Button>
           </Link>
-          <MdKeyboardDoubleArrowDown className="text-7xl animate-bounce text-sky-500 dark:text-sky-400" />
+          <MdKeyboardDoubleArrowDown className="text-4xl lg:text-7xl animate-bounce text-sky-500 dark:text-sky-400" />
         </div>
       </section>
     </main>

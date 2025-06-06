@@ -14,7 +14,7 @@ const LoadingBar: React.FC<{ loading: boolean }> = ({ loading }) => {
   if (!visible) return null;
 
   return (
-    <div className="loading-bar">
+    <div className="loading-bar fixed top-0">
       <div className="loading-bar-inner" />
     </div>
   );

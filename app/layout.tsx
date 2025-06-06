@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { ClerkProvider } from "@clerk/nextjs";
+import PageTransitionWrapper from "@/components/PageTransitionWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,9 +43,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             >
               <Toaster />
               <ReduxProvider>
-                <Navbar />
-                {children}
-                <Footer />
+                <PageTransitionWrapper>
+                  <Navbar />
+                  {children}
+                  <Footer />
+                </PageTransitionWrapper>
               </ReduxProvider>
             </ThemeProvider>
           </body>

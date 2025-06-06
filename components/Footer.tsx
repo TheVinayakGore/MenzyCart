@@ -16,7 +16,7 @@ const Footer = () => {
       className="bg-zinc-100 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 w-full"
     >
       {/* Newsletter + Branding */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 border-b border-zinc-200 dark:border-zinc-800 p-10">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 border-b border-zinc-200 dark:border-zinc-800 py-10 px-5 sm:px-20">
         <div className="w-full md:w-1/2 space-y-4">
           <Link href="/" className="inline-flex items-center gap-3">
             <Image
@@ -27,7 +27,7 @@ const Footer = () => {
               className="rounded-lg w-10 h-10"
             />
             <h1 className="text-2xl font-bold tracking-tight">
-              Menzy<span className="italic text-sky-500">Cart</span>
+              Menzy <span className="italic text-sky-500">Cart</span>
             </h1>
           </Link>
           <p className="text-sm opacity-70 max-w-sm">
@@ -48,7 +48,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Links */}
-      <div className="flex flex-col sm:flex-row items-center justify-between text-sm p-10 gap-4 border-t border-zinc-200 dark:border-zinc-800">
+      <div className="flex flex-col sm:flex-row items-center justify-between text-sm py-10 px-5 sm:px-20 gap-4 border-t border-zinc-200 dark:border-zinc-800">
         <p className="opacity-70 text-center sm:text-left">
           © {new Date().getFullYear()} MenzyCart. All rights reserved.
         </p>

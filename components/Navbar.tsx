@@ -17,11 +17,13 @@ import { PiArrowUpRightBold } from "react-icons/pi";
 import { Card, CardContent } from "@/components/ui/card";
 import { BsInfoSquare } from "react-icons/bs";
 import { TfiHelpAlt } from "react-icons/tfi";
+import LoadingBar from "./LoadingBar";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -45,16 +47,28 @@ const Navbar = () => {
 
   if (!mounted) return null;
 
+  const handleNavLinkClick = () => {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 400);
+  };
+
   const navLinkClass =
-    "flex items-center space-x-1 pl-3 pr-2 hover:font-semibold hover:text-sky-500 relative transition-all duration-200 before:absolute before:-bottom-1 before:left-1/2 before:w-0 before:h-[2px] before:bg-sky-400 dark:before:bg-sky-500 before:transition-all before:duration-300 before:-translate-x-1/2 hover:before:w-full hover:before:left-0 hover:before:translate-x-0 hover:before:bottom-[-4px]";
+    "relative flex items-center space-x-1 pl-3 pr-2 hover:font-semibold hover:text-sky-500 relative transition-all duration-200 before:absolute before:-bottom-1 before:left-1/2 before:w-0 before:h-[2px] before:bg-sky-400 dark:before:bg-sky-500 before:transition-all before:duration-300 before:-translate-x-1/2 hover:before:w-full hover:before:left-0 hover:before:translate-x-0 hover:before:bottom-[-4px]";
 
   return (
     <nav className="fixed top-0 z-[100] w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-md">
-      <div className="flex items-center justify-between px-4 md:px-10 py-3">
+      {/* Loading Bar */}
+      <LoadingBar loading={isLoading} />
+
+      <div className="flex items-center justify-between px-5 sm:px-20 py-3">
         {/* Logo */}
-        <Link href="/" className="flex items-center font-bold">
-          <Image src="/logo.png" alt="logo" width={25} height={25} />
-          <span className="ml-3 text-lg md:text-2xl font-bold">
+        <Link
+          href="/"
+          onClick={handleNavLinkClick}
+          className="flex items-center font-bold"
+        >
+          <Image src="/logo.png" alt="logo" width={35} height={35} />
+          <span className="ml-3 text-xl md:text-3xl font-bold">
             Menzy <span className="text-sky-400 italic">Cart</span>
           </span>
         </Link>
@@ -63,11 +77,21 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center justify-center gap-6 flex-1 mx-8">
           {/* Links */}
           <div className="flex gap-4">
-            <Link href="/about" className={navLinkClass}>
-              About Us <PiArrowUpRightBold className="w-3 h-3" />
+            <Link
+              href="/about"
+              onClick={handleNavLinkClick}
+              className={navLinkClass}
+            >
+              About Us{" "}
+              <PiArrowUpRightBold className="absolute top-0 -right-1.5 w-3 h-3" />
             </Link>
-            <Link href="/help" className={navLinkClass}>
-              Help <PiArrowUpRightBold className="w-3 h-3" />
+            <Link
+              href="/help"
+              onClick={handleNavLinkClick}
+              className={navLinkClass}
+            >
+              Help{" "}
+              <PiArrowUpRightBold className="absolute top-0 -right-1.5 w-3 h-3" />
             </Link>
           </div>
 
@@ -80,7 +104,7 @@ const Navbar = () => {
             />
             <button
               type="submit"
-              className="absolute inset-y-0 right-0 flex items-center p-3 rounded-lg border border-sky-500 bg-transparent hover:bg-sky-500 text-sky-500 hover:text-white transition-all hover:scale-110"
+              className="absolute inset-y-0 right-0 flex items-center p-3 rounded-r-lg border dark:border-zinc-700"
             >
               <FaSearch className="w-5 h-5" />
             </button>
@@ -123,7 +147,7 @@ const Navbar = () => {
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">
-                <Button className="text-sm px-6 font-medium bg-sky-400 hover:bg-sky-500 text-white">
+                <Button className="text-base p-5 px-7 font-medium bg-sky-400 hover:bg-sky-500 text-white">
                   Login
                 </Button>
               </SignInButton>
@@ -175,6 +199,7 @@ const Navbar = () => {
                 {/* Navigation Links */}
                 <Link
                   href="/about"
+                  onClick={handleNavLinkClick}
                   className="flex items-center gap-3 w-full text-base font-medium p-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white/30 dark:bg-zinc-900/30 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                 >
                   <BsInfoSquare className="h-6 w-6" />
@@ -182,6 +207,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   href="/help"
+                  onClick={handleNavLinkClick}
                   className="flex items-center gap-3 w-full text-base font-medium p-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white/30 dark:bg-zinc-900/30 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
                 >
                   <TfiHelpAlt className="h-6 w-6" />

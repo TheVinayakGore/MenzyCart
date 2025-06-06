@@ -238,7 +238,7 @@ const ProductDetails = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col items-start py-32 px-7 lg:px-16 w-full h-full"
+        className="flex flex-col items-start py-32 px-5 sm:px-20 w-full h-full"
       >
         <div className="flex flex-col md:flex-row items-start justify-start w-full h-full">
           {/* Image Section */}
