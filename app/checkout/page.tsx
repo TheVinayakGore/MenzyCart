@@ -8,7 +8,7 @@ import {
   incrementQuantity,
   decrementQuantity,
   removeItem,
-} from "@/redux/slices/cartSlice"; // Import the missing actions
+} from "@/redux/slices/cartSlice";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { toast } from "react-hot-toast";
@@ -72,15 +72,17 @@ const Checkout = () => {
   };
 
   return (
-    <main className="flex flex-col items-start justify-center gap-10 w-full min-h-screen p-20 py-40">
-      <h1 className="text-[12rem] leading-none font-extrabold text-start -mb-24">
+    <main className="flex flex-col items-start justify-center gap-6 md:gap-10 w-full min-h-screen p-5 md:p-14 lg:p-20">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl leading-none font-extrabold text-start mt-20 sm:mt-0">
         🛒 Checkout
       </h1>
-      <div className="w-full bg-white dark:bg-zinc-900 p-7 rounded-xl shadow-lg border border-zinc-300 dark:border-zinc-800">
+      <div className="w-full bg-white dark:bg-zinc-900 p-4 sm:p-6 md:p-7 rounded-xl shadow-lg border border-zinc-300 dark:border-zinc-800">
         {/* 🚚 Shipping Details */}
-        <div className="">
-          <h2 className="text-3xl font-medium mb-10">🚚 Shipping Details</h2>
-          <form className="space-y-4">
+        <div className="mb-6 md:mb-10">
+          <h2 className="text-2xl sm:text-3xl font-medium mb-6 md:mb-10">
+            🚚 Shipping Details
+          </h2>
+          <form className="space-y-3 md:space-y-4">
             <input
               type="text"
               name="name"
@@ -88,7 +90,7 @@ const Checkout = () => {
               value={userDetails.name}
               onChange={handleInputChange}
               required
-              className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-md bg-zinc-50 dark:bg-zinc-800"
+              className="w-full p-2 sm:p-3 border border-gray-300 dark:border-gray-700 rounded-md bg-zinc-50 dark:bg-zinc-800 text-sm sm:text-base"
             />
             <input
               type="email"
@@ -97,7 +99,7 @@ const Checkout = () => {
               value={userDetails.email}
               onChange={handleInputChange}
               required
-              className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-md bg-zinc-50 dark:bg-zinc-800"
+              className="w-full p-2 sm:p-3 border border-gray-300 dark:border-gray-700 rounded-md bg-zinc-50 dark:bg-zinc-800 text-sm sm:text-base"
             />
             <input
               type="text"
@@ -106,119 +108,125 @@ const Checkout = () => {
               value={userDetails.address}
               onChange={handleInputChange}
               required
-              className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-md bg-zinc-50 dark:bg-zinc-800"
+              className="w-full p-2 sm:p-3 border border-gray-300 dark:border-gray-700 rounded-md bg-zinc-50 dark:bg-zinc-800 text-sm sm:text-base"
             />
           </form>
         </div>
 
         {/* 🛍️ Order Summary */}
-        <div className="my-10">
-          <h2 className="text-3xl font-medium mb-10">🛍️ Order Summary</h2>
+        <div className="my-6 md:my-10">
+          <h2 className="text-2xl sm:text-3xl font-medium mb-6 md:mb-10">
+            🛍️ Order Summary
+          </h2>
           {cartItems.length === 0 ? (
             <p className="text-center text-gray-500">Your cart is empty 🛒</p>
           ) : (
             <>
-              <div className="grid grid-cols-2 gap-5 w-full h-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5 w-full">
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-start justify-between p-3 border rounded-lg bg-zinc-50 dark:bg-zinc-800 w-full"
+                    className="flex flex-col sm:flex-row items-start justify-between p-3 border rounded-lg bg-zinc-50 dark:bg-zinc-800 w-full gap-3 md:gap-4"
                   >
-                    <div className="flex items-start gap-4 w-full h-full">
+                    <div className="w-full sm:w-auto h-full">
                       <Image
                         src={urlFor(item.image)?.url() || "/placeholder.png"}
                         alt={item.title}
                         width={2000}
                         height={2000}
-                        className="w-60 h-auto border border-zinc-300 dark:border-zinc-700 rounded-lg"
+                        className="w-full sm:w-40 md:w-80 h-auto xl:h-full border border-zinc-300 dark:border-zinc-700 rounded-lg"
                       />
-                      <div className="flex flex-col items-center justify-between h-full">
-                        <div className="flex items-center justify-between w-full">
-                          <p className="text-2xl font-semibold w-full">
-                            {item.title.length > 12
-                              ? item.title.slice(0, 12) + "..."
-                              : item.title}
-                          </p>
-                          <p className="text-end text-3xl text-green-500 font-extrabold w-full">
-                            ₹{item.quantity * item.price}
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between text-xl font-bold p-2 bg-zinc-200 dark:bg-zinc-700 rounded-md my-2 w-full">
-                          <span className="">
-                            {item.quantity} × ₹{item.price}
-                          </span>
-                          {item.size && <p>Size : {item.size}</p>}
-                          {item.color && (
-                            <div className="flex items-center">
-                              Color :{" "}
-                              <div
-                                className="ml-2 rounded p-3"
-                                style={{
-                                  backgroundColor: Array.isArray(item.color)
-                                    ? item.color[0]
-                                    : item.color,
-                                }}
-                              />
-                            </div>
-                          )}
-                        </div>
-                        <p className="text-base">
-                          {item.description
-                            ? item.description.slice(0, 170) + "..."
-                            : "No description available"}
+                    </div>
+                    <div className="flex flex-col justify-between w-full h-full gap-2 sm:gap-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-2">
+                        <p className="text-lg sm:text-xl md:text-2xl font-semibold">
+                          {item.title.length > 20
+                            ? item.title.slice(0, 20) + "..."
+                            : item.title}
                         </p>
-                        <div className="flex items-center justify-end space-x-3 w-full">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => dispatch(decrementQuantity(item.id))}
-                            className="border-zinc-800 hover:border-sky-400 hover:bg-sky-400 hover:text-white rounded-sm p-2"
-                          >
-                            <FaMinus className="w-3 h-3" />
-                          </Button>
-                          <span className="font-medium">{item.quantity}</span>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => dispatch(incrementQuantity(item.id))}
-                            className="border-zinc-800 hover:border-sky-400 hover:bg-sky-400 hover:text-white rounded-sm p-2"
-                          >
-                            <FaPlus className="w-3 h-3" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => dispatch(removeItem(item.id))}
-                            className="border-zinc-800 hover:border-red-500 hover:text-red-500 rounded-sm p-2"
-                          >
-                            <ImBin className="w-4 h-4" />
-                          </Button>
-                        </div>
+                        <p className="text-lg sm:text-xl md:text-2xl text-green-500 font-bold sm:font-extrabold">
+                          ₹{item.quantity * item.price}
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-between text-sm sm:text-base md:text-lg font-medium p-2 bg-zinc-200 dark:bg-zinc-700 rounded-md w-full">
+                        <span>
+                          {item.quantity} × ₹{item.price}
+                        </span>
+                        {item.size && (
+                          <span className="ml-2">Size : {item.size}</span>
+                        )}
+                        {item.color && (
+                          <span className="flex items-center ml-2">
+                            Color :{" "}
+                            <div
+                              className="ml-2 w-4 h-4 rounded-full"
+                              style={{
+                                backgroundColor: Array.isArray(item.color)
+                                  ? item.color[0]
+                                  : item.color,
+                              }}
+                            />
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400">
+                        {item.description
+                          ? item.description.slice(0, 100) + "..."
+                          : "No description available"}
+                      </p>
+                      <div className="flex items-center justify-end gap-2 sm:gap-3 mt-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => dispatch(decrementQuantity(item.id))}
+                          className="border-zinc-800 hover:border-sky-400 hover:bg-sky-400 hover:text-white rounded-sm w-7 h-7 sm:w-10 sm:h-10"
+                        >
+                          <FaMinus className="w-3 h-3 sm:w-4 sm:h-4" />
+                        </Button>
+                        <span className="font-medium text-sm sm:text-base">
+                          {item.quantity}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => dispatch(incrementQuantity(item.id))}
+                          className="border-zinc-800 hover:border-sky-400 hover:bg-sky-400 hover:text-white rounded-sm w-7 h-7 sm:w-10 sm:h-10"
+                        >
+                          <FaPlus className="w-3 h-3 sm:w-4 sm:h-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => dispatch(removeItem(item.id))}
+                          className="border-zinc-800 hover:border-red-500 hover:text-red-500 rounded-sm w-7 h-7 sm:w-10 sm:h-10"
+                        >
+                          <ImBin className="w-3 h-3 sm:w-4 sm:h-4" />
+                        </Button>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="flex justify-between items-center font-bold text-3xl border-t mt-10 pt-5">
+              <div className="flex flex-col sm:flex-row justify-between items-center font-bold text-xl sm:text-2xl md:text-3xl border-t mt-6 md:mt-10 pt-4 md:pt-5 gap-2">
                 <span>💸 Payable Amount</span>
-                <span className="text-green-500">₹{totalAmount}</span>
+                <span className="text-sky-500 text-2xl">₹{totalAmount}</span>
               </div>
             </>
           )}
         </div>
 
         {/* 🏁 Checkout & Clear Cart Actions */}
-        <div className="flex items-center gap-5 mt-6 w-full">
+        <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-5 mt-4 md:mt-6 w-full">
           <Button
-            className="flex items-center bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-md text-lg w-full"
+            className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white py-3 sm:py-4 md:py-6 px-4 rounded-md text-sm sm:text-base md:text-lg w-full"
             onClick={handleCheckout}
             disabled={cartItems.length === 0}
           >
-            <FaShoppingCart className="mr-2" />
+            <FaShoppingCart className="mr-2 w-4 h-4" />
             Confirm Order
           </Button>
           <Button
-            className="flex items-center bg-red-500 hover:bg-red-600 text-white p-6 rounded-md text-lg w-full"
+            className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white py-3 sm:py-4 md:py-6 px-4 rounded-md text-sm sm:text-base md:text-lg w-full"
             onClick={() => {
               dispatch(clearCart());
               toast.success("🗑️ Cart cleared successfully!");
@@ -226,7 +234,7 @@ const Checkout = () => {
             }}
             disabled={cartItems.length === 0}
           >
-            <ImBin className="mr-2" />
+            <ImBin className="mr-2 w-4 h-4" />
             Clear Cart
           </Button>
         </div>
