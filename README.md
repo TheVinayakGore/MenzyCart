@@ -73,11 +73,48 @@ CLERK_SECRET_KEY=your_key
 NEXT_PUBLIC_CLERK_FRONTEND_API=your_api
 ```
 
+
 ## 📤 Deploy Your Own
 
-Want to deploy your own version ?
+Want to deploy your own version of Stock-Manager ?
 
-🔗 [Vercel Deployment Guide](https://vercel.com/docs/getting-started-with-vercel)
+You can easily deploy it using Vercel in just a few steps :
+
+
+## 🚀 Steps to Deploy on Vercel
+
+1.	Push the project to GitHub
+  -	Make sure your code is committed and pushed to a GitHub repository.
+2.	Login to Vercel
+  -	Go to vercel.com and sign in with GitHub.
+3.	Import your GitHub Repository
+	-	Click on + New Project → Import Git Repository.
+	-	Select the Stock-Manager repo from the list.
+4.	Configure Environment Variables
+	-	Add your environment variables during the setup:
+
+```bash
+MONGODB_URI=your_mongodb_connection_string
+```
+
+5.	Choose Framework Preset
+	-	Vercel will auto-detect the Next.js framework. Leave the default settings unless custom.
+6.	Deploy
+	-	Click Deploy and wait for Vercel to build and deploy your app.
+	-	Once done, you’ll get a live URL like:
+
+```bash
+https://your-project-name.vercel.app
+```
+
+7.	Post-Deployment
+	-	Optionally, go to your project settings on Vercel and :
+	-	Set up a custom domain.
+	-	Configure automatic re-deployment on GitHub pushes.
+	-	Enable serverless function logs and analytics.
+
+🔗 Vercel Docs - [Getting Started](https://vercel.com/docs/getting-started-with-vercel)
+
 
 ## 📫 Connect
 
