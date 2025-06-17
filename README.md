@@ -25,7 +25,7 @@ MenzyCart is a full-stack eCommerce web app built with modern technologies like 
 -	⚙️ Clean and modular folder structure
   
 
-## 🗂️ Folder Structure
+## 🗂️ Important Folder Structure
 
 ```bash
 ├── app              # Routing (Next.js App Router)
@@ -34,6 +34,7 @@ MenzyCart is a full-stack eCommerce web app built with modern technologies like 
 ├── sanity           # Sanity CMS integration
 ├── lib/utils        # Utility functions
 ├── public           # Static files and images
+├── other files      # Other files in root folder
 ```
 
 
